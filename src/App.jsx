@@ -51,7 +51,7 @@ const T = {
     greeting:"👋 Hi! I'm your BGexpats assistant.\n\nAsk me anything about living in or visiting Bulgaria — visas, healthcare, banking, housing, taxes, or local tips. I'm here to help!",
     suggestions:["How do I get a residency permit?","What's the cost of living in Sofia?","How to open a bank account as a foreigner?","How to register an EOOD company?","Best neighborhoods in Sofia for expats?"],
     placeholder:"Ask anything about life in Bulgaria...",
-    translating:"Translating...",home:"← Home",nav:{tools:"🛠️ Tools",map:"🗺️ Map",advertise:"📢 Advertise",pricing:"⭐ Pricing",community:"💬 Community",connect:"💑 Connect",apps:"📱 Apps",deadlines:"📅 Deadlines",upgrade:"⭐ Upgrade",login:"👤 Login",signout:"Sign out",profile:"My profile"}translateBtn:"Translate this guide",
+    translating:"Translating...",home:"← Home",translateBtn:"Translate this guide",nav:{tools:"🛠️ Tools",map:"🗺️ Map",advertise:"📢 Advertise",pricing:"⭐ Pricing",community:"💬 Community",connect:"💑 Connect",apps:"📱 Apps",deadlines:"📅 Deadlines",upgrade:"⭐ Upgrade",login:"👤 Login",signout:"Sign out",profile:"My profile"},
   },
   fr:{
     badge:"Votre guide complet pour vivre en Bulgarie",
@@ -76,7 +76,7 @@ const T = {
     greeting:"👋 Bonjour ! Je suis votre assistant guide pour la Bulgarie.\n\nPosez-moi n'importe quelle question sur la vie en Bulgarie — visas, santé, banque, logement, impôts ou conseils locaux. Je suis là pour vous aider !",
     suggestions:["Comment obtenir un permis de résidence ?","Quel est le coût de la vie à Sofia ?","Comment ouvrir un compte bancaire en tant qu'étranger ?","Comment créer une société EOOD ?","Meilleurs quartiers de Sofia pour les expatriés ?"],
     placeholder:"Posez n'importe quelle question sur la vie en Bulgarie...",
-    translating:"Traduction en cours...",home:"← Accueil",nav:{tools:"🛠️ Outils",map:"🗺️ Carte",advertise:"📢 Publicité",pricing:"⭐ Tarifs",community:"💬 Communauté",connect:"💑 Rencontres",apps:"📱 Applis",deadlines:"📅 Délais",upgrade:"⭐ Améliorer",login:"👤 Connexion",signout:"Déconnexion",profile:"Mon profil"}translateBtn:"Traduire ce guide",
+    translating:"Traduction en cours...",home:"← Accueil",nav:{tools:"🛠️ Outils",map:"🗺️ Carte",advertise:"📢 Publicité",pricing:"⭐ Tarifs",community:"💬 Communauté",connect:"💑 Rencontres",apps:"📱 Applis",deadlines:"📅 Délais",upgrade:"⭐ Améliorer",login:"👤 Connexion",signout:"Déconnexion",profile:"Mon profil"},translateBtn:"Traduire ce guide",
   },
   es:{
     badge:"Tu guía completa para vivir en Bulgaria",
@@ -101,7 +101,7 @@ const T = {
     greeting:"👋 ¡Hola! Soy tu asistente guía para Bulgaria.\n\nPregúntame lo que quieras sobre vivir o visitar Bulgaria — visados, sanidad, banca, vivienda, impuestos o consejos locales. ¡Estoy aquí para ayudarte!",
     suggestions:["¿Cómo obtengo un permiso de residencia?","¿Cuál es el coste de vida en Sofía?","¿Cómo abro una cuenta bancaria como extranjero?","¿Cómo registro una empresa EOOD?","¿Mejores barrios de Sofía para expatriados?"],
     placeholder:"Pregunta cualquier cosa sobre la vida en Bulgaria...",
-    translating:"Traduciendo...",home:"← Inicio",nav:{tools:"🛠️ Herramientas",map:"🗺️ Mapa",advertise:"📢 Publicidad",pricing:"⭐ Precios",community:"💬 Comunidad",connect:"💑 Conectar",apps:"📱 Apps",deadlines:"📅 Plazos",upgrade:"⭐ Actualizar",login:"👤 Entrar",signout:"Cerrar sesión",profile:"Mi perfil"}translateBtn:"Traducir esta guía",
+    translating:"Traduciendo...",home:"← Inicio",nav:{tools:"🛠️ Herramientas",map:"🗺️ Mapa",advertise:"📢 Publicidad",pricing:"⭐ Precios",community:"💬 Comunidad",connect:"💑 Conectar",apps:"📱 Apps",deadlines:"📅 Plazos",upgrade:"⭐ Actualizar",login:"👤 Entrar",signout:"Cerrar sesión",profile:"Mi perfil"},translateBtn:"Traducir esta guía",
   },
   de:{
     badge:"Ihr vollständiger Leitfaden für das Leben in Bulgarien",
