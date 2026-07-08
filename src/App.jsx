@@ -1044,7 +1044,7 @@ function Nav({view,setView,lang,t,user,setUser,subscription,openCheckout=()=>{}}
           <span style={{color:"#fff",fontSize:16,fontWeight:700,letterSpacing:"-0.3px"}}>BGexpats</span>
           {subscription&&<span style={{background:"#f0c060",color:"#1a3a20",fontSize:10,padding:"2px 8px",borderRadius:10,fontWeight:700,marginLeft:4}}>{subscription.plan.toUpperCase()}</span>}
         </button>
-        <div style={{display:"flex",alignItems:"center",gap:6}}>
+        <div className="nav-links" style={{display:"flex",alignItems:"center",gap:6,overflowX:"auto",WebkitOverflowScrolling:"touch",scrollbarWidth:"none",msOverflowStyle:"none",flexShrink:0,maxWidth:"calc(100vw - 180px)","&::WebkitScrollbar":{display:"none"}}}>
           <button onClick={()=>setView("tools")} style={{background:"rgba(255,255,255,0.12)",border:"none",color:"#fff",padding:"7px 13px",borderRadius:8,cursor:"pointer",fontSize:13,fontWeight:view==="tools"?700:400}}>
             {t.nav?.tools||"🛠️ Tools"}
           </button>
