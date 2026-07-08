@@ -1,0 +1,18 @@
+{
+  "name": "bgexpats",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node --max-old-space-size=4096 ./node_modules/.bin/vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^6.0.3",
+    "@vitejs/plugin-react": "^4.3.4"
+  },
+  "devDependencies": {}
+}
