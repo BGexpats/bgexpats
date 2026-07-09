@@ -1009,7 +1009,6 @@ function LangBanner({lang,setLang}){
   return(
     <div style={{background:"#f0f0ec",borderBottom:"1px solid #ddd9ce",padding:"0 20px"}}>
       <div style={{maxWidth:1100,margin:"0 auto",display:"flex",alignItems:"center",gap:0,overflowX:"auto"}}>
-        <span style={{fontSize:12,color:"#888",marginRight:12,whiteSpace:"nowrap",flexShrink:0}}>🌍 Language:</span>
         {Object.entries(LANGS).map(([k,v])=>(
           <button key={k} onClick={()=>setLang(k)} title={v.name} aria-label={v.name}
             style={{
