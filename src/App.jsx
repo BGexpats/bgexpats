@@ -1011,25 +1011,21 @@ function LangBanner({lang,setLang}){
       <div style={{maxWidth:1100,margin:"0 auto",display:"flex",alignItems:"center",gap:0,overflowX:"auto"}}>
         <span style={{fontSize:12,color:"#888",marginRight:12,whiteSpace:"nowrap",flexShrink:0}}>🌍 Language:</span>
         {Object.entries(LANGS).map(([k,v])=>(
-          <button key={k} onClick={()=>setLang(k)}
+          <button key={k} onClick={()=>setLang(k)} title={v.name} aria-label={v.name}
             style={{
               background:lang===k?"#1e5e3f":"transparent",
               border:"none",
-              color:lang===k?"#fff":"#555",
-              padding:"8px 14px",
+              padding:"8px 12px",
               cursor:"pointer",
-              fontSize:13,
-              fontWeight:lang===k?600:400,
-              display:"flex",alignItems:"center",gap:6,
+              display:"flex",alignItems:"center",justifyContent:"center",
+              borderRadius:8,
               borderBottom:lang===k?"2px solid #b8792a":"2px solid transparent",
               transition:"all 0.15s",
-              whiteSpace:"nowrap",
               flexShrink:0,
             }}
-            onMouseEnter={e=>{if(lang!==k){e.currentTarget.style.background="#e8f2eb";e.currentTarget.style.color="#1e5e3f"}}}
-            onMouseLeave={e=>{if(lang!==k){e.currentTarget.style.background="transparent";e.currentTarget.style.color="#555"}}}>
-            <span style={{fontSize:18}}>{v.flag}</span>
-            <span>{v.name}</span>
+            onMouseEnter={e=>{if(lang!==k){e.currentTarget.style.background="#e8f2eb"}}}
+            onMouseLeave={e=>{if(lang!==k){e.currentTarget.style.background="transparent"}}}>
+            <span style={{fontSize:19}}>{v.flag}</span>
           </button>
         ))}
       </div>
