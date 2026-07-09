@@ -21,15 +21,15 @@ const C = {
 }
 
 const LANGS = {
-  en:{flag:"🇬🇧",name:"English",   short:"EN"},
-  fr:{flag:"🇫🇷",name:"Français",  short:"FR"},
-  es:{flag:"🇪🇸",name:"Español",   short:"ES"},
-  de:{flag:"🇩🇪",name:"Deutsch",   short:"DE"},
-  nl:{flag:"🇳🇱",name:"Nederlands",short:"NL"},
-  ru:{flag:"🇷🇺",name:"Русский",   short:"RU"},
-  uk:{flag:"🇺🇦",name:"Українська",short:"UK"},
-  tr:{flag:"🇹🇷",name:"Türkçe",    short:"TR"},
-  bg:{flag:"🇧🇬",name:"Български", short:"BG"},
+  en:{flag:"🇬🇧",name:"English",   short:"EN",cc:"gb"},
+  fr:{flag:"🇫🇷",name:"Français",  short:"FR",cc:"fr"},
+  es:{flag:"🇪🇸",name:"Español",   short:"ES",cc:"es"},
+  de:{flag:"🇩🇪",name:"Deutsch",   short:"DE",cc:"de"},
+  nl:{flag:"🇳🇱",name:"Nederlands",short:"NL",cc:"nl"},
+  ru:{flag:"🇷🇺",name:"Русский",   short:"RU",cc:"ru"},
+  uk:{flag:"🇺🇦",name:"Українська",short:"UK",cc:"ua"},
+  tr:{flag:"🇹🇷",name:"Türkçe",    short:"TR",cc:"tr"},
+  bg:{flag:"🇧🇬",name:"Български", short:"BG",cc:"bg"},
 }
 
 const T = {
@@ -1025,7 +1025,7 @@ function LangBanner({lang,setLang}){
             }}
             onMouseEnter={e=>{if(lang!==k){e.currentTarget.style.background="#e8f2eb"}}}
             onMouseLeave={e=>{if(lang!==k){e.currentTarget.style.background="transparent"}}}>
-            <span style={{fontSize:19}}>{v.flag}</span>
+            <img src={`https://flagcdn.com/32x24/${v.cc}.png`} alt={v.name} width="22" height="16" style={{borderRadius:2,display:"block",boxShadow:"0 0 0 1px rgba(0,0,0,0.08)"}}/>
           </button>
         ))}
       </div>
@@ -1504,8 +1504,9 @@ function ChatPage({lang,t}){
             <div style={{color:"#fff",fontWeight:600,fontSize:14}}>{t.chatTitle}</div>
             <div style={{color:"rgba(255,255,255,0.6)",fontSize:12}}>{t.chatSub}</div>
           </div>
-          <div style={{marginLeft:"auto",background:"rgba(255,255,255,0.12)",borderRadius:12,padding:"3px 10px",fontSize:12,color:"rgba(255,255,255,0.7)"}}>
-            {LANGS[lang].flag} {LANGS[lang].name}
+          <div style={{marginLeft:"auto",background:"rgba(255,255,255,0.12)",borderRadius:12,padding:"3px 10px",fontSize:12,color:"rgba(255,255,255,0.7)",display:"flex",alignItems:"center",gap:6}}>
+            <img src={`https://flagcdn.com/32x24/${LANGS[lang].cc}.png`} alt="" width="16" height="12" style={{borderRadius:2,display:"block"}}/>
+            {LANGS[lang].name}
           </div>
         </div>
       </div>
