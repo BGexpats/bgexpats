@@ -1166,11 +1166,13 @@ function Hero({setView,t,lang}){
         </h1>
         <p style={{color:"rgba(255,255,255,0.85)",fontSize:17,margin:"0 0 32px",lineHeight:1.65,textShadow:"0 1px 8px rgba(0,0,0,0.3)"}}>{t.sub}</p>
         <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
-          <button onClick={()=>setView("chat")} style={{background:C.accent,border:"none",color:"#fff",padding:"14px 28px",borderRadius:999,cursor:"pointer",fontSize:15,fontWeight:700,display:"inline-flex",alignItems:"center",gap:8,boxShadow:"0 6px 24px rgba(0,0,0,0.3)"}}>
-            🤖 {t.askBtn}
+          <button onClick={()=>setView("chat")} style={{background:C.accent,border:"none",color:"#fff",padding:"14px 28px",borderRadius:999,cursor:"pointer",fontSize:15,fontWeight:700,display:"inline-flex",alignItems:"center",gap:9,boxShadow:"0 6px 24px rgba(0,0,0,0.3)"}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" style={{flexShrink:0}}><path fill="#fff" d="M12 2l1.8 4.6L18 8l-4.2 1.9L12 15l-1.8-5.1L6 8l4.2-1.4z"/><path fill="#fff" fillOpacity=".55" d="M19 14l.9 2.3L22 17l-2.1 .9-.9 2.3-.9-2.3L16 17l2.1-.7z"/></svg>
+            {t.askBtn}
           </button>
-          <button onClick={()=>setView("tourism")} style={{background:"rgba(255,255,255,0.15)",backdropFilter:"blur(6px)",border:"1px solid rgba(255,255,255,0.3)",color:"#fff",padding:"14px 28px",borderRadius:999,cursor:"pointer",fontSize:15,fontWeight:700}}>
-            ✈️ {lang==="fr"?"Explorer":(lang==="es"?"Explorar":(lang==="de"?"Entdecken":(lang==="nl"?"Ontdekken":"Explore Bulgaria")))}
+          <button onClick={()=>setView("tourism")} style={{background:"rgba(255,255,255,0.15)",backdropFilter:"blur(6px)",border:"1px solid rgba(255,255,255,0.3)",color:"#fff",padding:"14px 28px",borderRadius:999,cursor:"pointer",fontSize:15,fontWeight:700,display:"inline-flex",alignItems:"center",gap:9}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" style={{flexShrink:0}}><path fill="#f0c060" fillOpacity=".4" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            {lang==="fr"?"Explorer":(lang==="es"?"Explorar":(lang==="de"?"Entdecken":(lang==="nl"?"Ontdekken":"Explore Bulgaria")))}
           </button>
         </div>
         <div style={{display:"flex",justifyContent:"center",gap:36,marginTop:40}}>
