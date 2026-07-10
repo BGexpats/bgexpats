@@ -3162,13 +3162,10 @@ function MapPage({user,setView,subscription,openCheckout}){
     if(!loaded||!mapRef.current||mapInst.current)return
     const L=window.L
     const map=L.map(mapRef.current,{zoomControl:true}).setView([42.6977,23.3219],13)
-    // Wikimedia "osm-intl" tiles render street/place labels in Latin script
-    // (e.g. "Vitosha Blvd" instead of "бул. Витоша"). Free, no API key required.
-    // NOTE: Wikimedia tiles are best-effort for third parties. If BGexpats grows
-    // to high traffic, switch to MapTiler (needs a free API key) for guaranteed capacity.
-    L.tileLayer("https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png?lang=en",{
-      attribution:'© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors, <a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
-      maxZoom:18
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+      attribution:'© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+      referrerPolicy:"strict-origin-when-cross-origin",
+      maxZoom:19
     }).addTo(map)
     mapInst.current=map
     updateMarkers()
