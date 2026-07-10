@@ -131,7 +131,7 @@ const T = {
     greeting:"👋 Hallo! Ich bin Ihr Bulgarien-Reiseführer-Assistent.\n\nFragen Sie mich alles über das Leben in oder den Besuch Bulgariens — Visa, Gesundheit, Banking, Wohnen, Steuern oder lokale Tipps. Ich helfe Ihnen gerne!",
     suggestions:["Wie bekomme ich eine Aufenthaltserlaubnis?","Wie sind die Lebenshaltungskosten in Sofia?","Wie eröffne ich ein Bankkonto als Ausländer?","Wie registriere ich eine EOOD-Firma?","Beste Viertel in Sofia für Expats?"],
     placeholder:"Stellen Sie eine Frage über das Leben in Bulgarien...",
-    translating:"Übersetze...",home:"← Startseite",translateBtn:"Diesen Leitfaden übersetzen",nav:{tools:"🛠️ Werkzeuge",map:"🗺️ Karte",advertise:"📢 Werbung",pricing:"⭐ Preise",community:"💬 Community",connect:"💑 Verbinden",apps:"📱 Apps",deadlines:"📅 Fristen",upgrade:"⭐ Upgrade",login:"👤 Anmelden",signout:"Abmelden",profile:"Mein Profil",analytics:"Statistiken"}
+    translating:"Übersetze...",home:"← Startseite",translateBtn:"Diesen Leitfaden übersetzen",
   },
   nl:{
     badge:"Uw complete gids voor het leven in Bulgarije",
@@ -156,7 +156,7 @@ const T = {
     greeting:"👋 Hallo! Ik ben uw gids-assistent voor Bulgarije.\n\nStel me alles over leven in of bezoeken van Bulgarije — visa's, gezondheidszorg, bankieren, wonen, belastingen of lokale tips. Ik help u graag!",
     suggestions:["Hoe krijg ik een verblijfsvergunning?","Wat zijn de kosten van levensonderhoud in Sofia?","Hoe open ik een bankrekening als buitenlander?","Hoe registreer ik een EOOD-bedrijf?","Beste wijken in Sofia voor expats?"],
     placeholder:"Stel een vraag over het leven in Bulgarije...",
-    translating:"Vertalen...",home:"← Terug",translateBtn:"Vertaal deze gids",nav:{tools:"🛠️ Hulpmiddelen",map:"🗺️ Kaart",advertise:"📢 Adverteren",pricing:"⭐ Prijzen",community:"💬 Community",connect:"💑 Verbinden",apps:"📱 Apps",deadlines:"📅 Deadlines",upgrade:"⭐ Upgrade",login:"👤 Inloggen",signout:"Uitloggen",profile:"Mijn profiel",analytics:"Statistieken"}
+    translating:"Vertalen...",home:"← Terug",translateBtn:"Vertaal deze gids",nav:{tools:"🛠️ Tools",map:"🗺️ Kaart",advertise:"📢 Adverteren",pricing:"⭐ Prijzen",community:"💬 Community",connect:"💑 Verbinden",apps:"📱 Apps",deadlines:"📅 Deadlines",upgrade:"⭐ Upgrade",login:"👤 Inloggen",signout:"Uitloggen",profile:"Mijn profiel",analytics:"Statistieken"}
   },
   ru:{
     badge:"Ваш полный путеводитель по жизни в Болгарии",
@@ -1217,7 +1217,7 @@ function CategoryGrid({setView,t,lang}){
                   onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.05)"}}
                   onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)"}}/>
                 <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.35) 0%,transparent 60%)"}}/>
-                <div style={{position:"absolute",top:12,left:12,width:38,height:38,borderRadius:10,background:`${cat.bg}b3`,backdropFilter:"blur(6px)",WebkitBackdropFilter:"blur(6px)",border:"1px solid rgba(255,255,255,0.5)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{cat.icon}</div>
+                <div style={{position:"absolute",top:12,left:12,width:38,height:38,borderRadius:10,background:"rgba(255,255,255,0.92)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{cat.icon}</div>
                 <div style={{position:"absolute",bottom:10,left:12,color:"#fff",fontSize:13,fontWeight:600,textShadow:"0 1px 4px rgba(0,0,0,0.5)"}}>{lb.label}</div>
               </div>
               <div style={{padding:"14px 16px 16px"}}>
@@ -3117,6 +3117,15 @@ function MapPage({user,setView,subscription,openCheckout}){
   const [filter,setFilter]=useState("all")
   const [selected,setSelected]=useState(null)
   const [loaded,setLoaded]=useState(false)
+  const [isMobile,setIsMobile]=useState(typeof window!=="undefined"&&window.innerWidth<=768)
+  useEffect(()=>{
+    const onResize=()=>{
+      setIsMobile(window.innerWidth<=768)
+      if(mapInst.current)setTimeout(()=>mapInst.current.invalidateSize(),100)
+    }
+    window.addEventListener("resize",onResize)
+    return()=>window.removeEventListener("resize",onResize)
+  },[])
   const FREE_LIMIT=3
   // Subscription tier access
   const tier = (subscription&&subscription.plan) || "free"
@@ -3242,10 +3251,10 @@ function MapPage({user,setView,subscription,openCheckout}){
       </div>
 
       {/* Map + Sidebar */}
-      <div style={{maxWidth:1200,margin:"0 auto",padding:"16px 20px",display:"grid",gridTemplateColumns:"320px 1fr",gap:16,alignItems:"start"}}>
+      <div style={{maxWidth:1200,margin:"0 auto",padding:isMobile?"12px":"16px 20px",display:"grid",gridTemplateColumns:isMobile?"1fr":"320px 1fr",gap:16,alignItems:"start"}}>
 
         {/* Sidebar */}
-        <div style={{display:"flex",flexDirection:"column",gap:10}}>
+        <div style={{display:"flex",flexDirection:"column",gap:10,order:isMobile?2:1}}>
 
           {/* Tiered gate banners */}
           {!user&&(
@@ -3312,7 +3321,7 @@ function MapPage({user,setView,subscription,openCheckout}){
             </div>
             <div style={{maxHeight:360,overflowY:"auto"}}>
               {sidebarList.map(loc=>(
-                <button key={loc.id} onClick={()=>{setSelected(loc);mapInst.current&&mapInst.current.setView([loc.lat,loc.lng],15)}}
+                <button key={loc.id} onClick={()=>{setSelected(loc);mapInst.current&&mapInst.current.setView([loc.lat,loc.lng],15);if(isMobile&&mapRef.current)mapRef.current.scrollIntoView({behavior:"smooth",block:"center"})}}
                   style={{width:"100%",background:(selected&&selected.id)===loc.id?C.primaryLight:"transparent",border:"none",borderBottom:`1px solid ${C.border}`,padding:"11px 14px",cursor:"pointer",textAlign:"left",display:"flex",gap:10,alignItems:"flex-start",transition:"background 0.15s"}}>
                   <span style={{fontSize:16,flexShrink:0}}>{loc.icon}</span>
                   <div style={{flex:1,minWidth:0}}>
@@ -3327,8 +3336,8 @@ function MapPage({user,setView,subscription,openCheckout}){
         </div>
 
         {/* Map */}
-        <div style={{borderRadius:16,overflow:"hidden",border:`1px solid ${C.border}`,boxShadow:"0 4px 20px rgba(0,0,0,0.08)",position:"sticky",top:80}}>
-          <div ref={mapRef} style={{height:"calc(100vh - 220px)",minHeight:500,width:"100%",background:"#e8f0eb"}}/>
+        <div style={{borderRadius:16,overflow:"hidden",border:`1px solid ${C.border}`,boxShadow:"0 4px 20px rgba(0,0,0,0.08)",position:isMobile?"relative":"sticky",top:isMobile?0:80,order:isMobile?1:2}}>
+          <div ref={mapRef} style={{height:isMobile?"60vh":"calc(100vh - 220px)",minHeight:isMobile?340:500,width:"100%",background:"#e8f0eb"}}/>
           {!loaded&&(
             <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"#e8f0eb",borderRadius:16}}>
               <div style={{textAlign:"center"}}>
