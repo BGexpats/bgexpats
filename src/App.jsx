@@ -131,7 +131,7 @@ const T = {
     greeting:"👋 Hallo! Ich bin Ihr Bulgarien-Reiseführer-Assistent.\n\nFragen Sie mich alles über das Leben in oder den Besuch Bulgariens — Visa, Gesundheit, Banking, Wohnen, Steuern oder lokale Tipps. Ich helfe Ihnen gerne!",
     suggestions:["Wie bekomme ich eine Aufenthaltserlaubnis?","Wie sind die Lebenshaltungskosten in Sofia?","Wie eröffne ich ein Bankkonto als Ausländer?","Wie registriere ich eine EOOD-Firma?","Beste Viertel in Sofia für Expats?"],
     placeholder:"Stellen Sie eine Frage über das Leben in Bulgarien...",
-    translating:"Übersetze...",home:"← Startseite",translateBtn:"Diesen Leitfaden übersetzen",
+    translating:"Übersetze...",home:"← Startseite",translateBtn:"Diesen Leitfaden übersetzen",nav:{tools:"🛠️ Werkzeuge",map:"🗺️ Karte",advertise:"📢 Werbung",pricing:"⭐ Preise",community:"💬 Community",connect:"💑 Verbinden",apps:"📱 Apps",deadlines:"📅 Fristen",upgrade:"⭐ Upgrade",login:"👤 Anmelden",signout:"Abmelden",profile:"Mein Profil",analytics:"Statistiken"}
   },
   nl:{
     badge:"Uw complete gids voor het leven in Bulgarije",
@@ -156,7 +156,7 @@ const T = {
     greeting:"👋 Hallo! Ik ben uw gids-assistent voor Bulgarije.\n\nStel me alles over leven in of bezoeken van Bulgarije — visa's, gezondheidszorg, bankieren, wonen, belastingen of lokale tips. Ik help u graag!",
     suggestions:["Hoe krijg ik een verblijfsvergunning?","Wat zijn de kosten van levensonderhoud in Sofia?","Hoe open ik een bankrekening als buitenlander?","Hoe registreer ik een EOOD-bedrijf?","Beste wijken in Sofia voor expats?"],
     placeholder:"Stel een vraag over het leven in Bulgarije...",
-    translating:"Vertalen...",home:"← Terug",translateBtn:"Vertaal deze gids",nav:{tools:"🛠️ Tools",map:"🗺️ Kaart",advertise:"📢 Adverteren",pricing:"⭐ Prijzen",community:"💬 Community",connect:"💑 Verbinden",apps:"📱 Apps",deadlines:"📅 Deadlines",upgrade:"⭐ Upgrade",login:"👤 Inloggen",signout:"Uitloggen",profile:"Mijn profiel",analytics:"Statistieken"}
+    translating:"Vertalen...",home:"← Terug",translateBtn:"Vertaal deze gids",nav:{tools:"🛠️ Hulpmiddelen",map:"🗺️ Kaart",advertise:"📢 Adverteren",pricing:"⭐ Prijzen",community:"💬 Community",connect:"💑 Verbinden",apps:"📱 Apps",deadlines:"📅 Deadlines",upgrade:"⭐ Upgrade",login:"👤 Inloggen",signout:"Uitloggen",profile:"Mijn profiel",analytics:"Statistieken"}
   },
   ru:{
     badge:"Ваш полный путеводитель по жизни в Болгарии",
@@ -1217,7 +1217,7 @@ function CategoryGrid({setView,t,lang}){
                   onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.05)"}}
                   onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)"}}/>
                 <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.35) 0%,transparent 60%)"}}/>
-                <div style={{position:"absolute",top:12,left:12,width:38,height:38,borderRadius:10,background:"rgba(255,255,255,0.92)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{cat.icon}</div>
+                <div style={{position:"absolute",top:12,left:12,width:38,height:38,borderRadius:10,background:`${cat.bg}b3`,backdropFilter:"blur(6px)",WebkitBackdropFilter:"blur(6px)",border:"1px solid rgba(255,255,255,0.5)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{cat.icon}</div>
                 <div style={{position:"absolute",bottom:10,left:12,color:"#fff",fontSize:13,fontWeight:600,textShadow:"0 1px 4px rgba(0,0,0,0.5)"}}>{lb.label}</div>
               </div>
               <div style={{padding:"14px 16px 16px"}}>
