@@ -3142,6 +3142,13 @@ function MapPage({user,setView,subscription,openCheckout}){
     return true // health, bank, legal, hood always visible
   }
 
+  // MapTiler API key — renders street/place labels in LATIN script (e.g. "Vitosha Blvd"
+  // instead of "бул. Витоша") so non-Cyrillic readers can use the map.
+  // Key is domain-locked (bgexpats.com / *.vercel.app) so it's safe in frontend code.
+  // If left as the placeholder OR if MapTiler tiles fail to load, the map automatically
+  // falls back to standard OpenStreetMap tiles so it never goes blank.
+  const MAPTILER_KEY = "nH3oySI2WkMV18HpsJCK"
+
   useEffect(()=>{
     if(!document.getElementById("leaflet-css")){
       const l=document.createElement("link")
@@ -3162,11 +3169,36 @@ function MapPage({user,setView,subscription,openCheckout}){
     if(!loaded||!mapRef.current||mapInst.current)return
     const L=window.L
     const map=L.map(mapRef.current,{zoomControl:true}).setView([42.6977,23.3219],13)
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+
+    // Standard OpenStreetMap tiles (local Cyrillic labels) — used as fallback.
+    const osmLayer=L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
       attribution:'© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
       referrerPolicy:"strict-origin-when-cross-origin",
       maxZoom:19
-    }).addTo(map)
+    })
+
+    const keySet = MAPTILER_KEY && MAPTILER_KEY!=="nH3oySI2WkMV18HpsJCK"
+    if(keySet){
+      // MapTiler raster tiles with Latin labels. If a tile errors (bad key, quota,
+      // network), swap the whole basemap to OSM so the map still works.
+      let fellBack=false
+      const mtLayer=L.tileLayer(
+        `https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${MAPTILER_KEY}&language=latin`,{
+          attribution:'© <a href="https://www.maptiler.com/copyright/">MapTiler</a> © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+          maxZoom:19,
+          crossOrigin:true
+        })
+      mtLayer.on("tileerror",()=>{
+        if(fellBack)return
+        fellBack=true
+        map.removeLayer(mtLayer)
+        osmLayer.addTo(map)
+      })
+      mtLayer.addTo(map)
+    } else {
+      osmLayer.addTo(map)
+    }
+
     mapInst.current=map
     updateMarkers()
   },[loaded])
