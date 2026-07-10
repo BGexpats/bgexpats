@@ -1197,6 +1197,31 @@ const CAT_PHOTOS={
   business:"https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=75",
 }
 
+// Neutral outline icons for the topic cards — thin single-colour line art
+// matching the site's nav icon style (no childish coloured emoji).
+function TopicIcon({id,size=20,color="#1e5e3f"}){
+  const p={fill:"none",stroke:color,strokeWidth:1.7,strokeLinecap:"round",strokeLinejoin:"round"}
+  const paths={
+    // Legal — scales of justice
+    legal:<g {...p}><path d="M12 3v18M7 21h10M5 7h14M12 5l-5 1.5M12 5l5 1.5"/><path d="M7 6.5l-2.5 5a2.5 2.5 0 0 0 5 0L7 6.5zM17 6.5l-2.5 5a2.5 2.5 0 0 0 5 0L17 6.5z"/></g>,
+    // Healthcare — medical cross / pulse
+    healthcare:<g {...p}><path d="M12 8v8M8 12h8"/><rect x="4" y="4" width="16" height="16" rx="3"/></g>,
+    // Banking — bank building with columns
+    banking:<g {...p}><path d="M3 9l9-5 9 5M4 9v9M20 9v9M4 21h16M8 12v5M12 12v5M16 12v5"/></g>,
+    // Tourism — pin / landmark
+    tourism:<g {...p}><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></g>,
+    // Housing — house with roof
+    housing:<g {...p}><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"/></g>,
+    // Business — briefcase
+    business:<g {...p}><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></g>,
+  }
+  return(
+    <svg width={size} height={size} viewBox="0 0 24 24" style={{flexShrink:0}}>
+      {paths[id]||paths.business}
+    </svg>
+  )
+}
+
 function CategoryGrid({setView,t,lang}){
   useScrollReveal()
   return(
@@ -1217,7 +1242,7 @@ function CategoryGrid({setView,t,lang}){
                   onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.05)"}}
                   onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)"}}/>
                 <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.35) 0%,transparent 60%)"}}/>
-                <div style={{position:"absolute",top:12,left:12,width:38,height:38,borderRadius:10,background:"rgba(255,255,255,0.92)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{cat.icon}</div>
+                <div style={{position:"absolute",top:12,left:12,width:38,height:38,borderRadius:10,background:"rgba(255,255,255,0.95)",display:"flex",alignItems:"center",justifyContent:"center"}}><TopicIcon id={cat.id}/></div>
                 <div style={{position:"absolute",bottom:10,left:12,color:"#fff",fontSize:13,fontWeight:600,textShadow:"0 1px 4px rgba(0,0,0,0.5)"}}>{lb.label}</div>
               </div>
               <div style={{padding:"14px 16px 16px"}}>
