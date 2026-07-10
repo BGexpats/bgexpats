@@ -1280,12 +1280,12 @@ function QuickFacts({t}){
 
 function PhotoGallery({setView,lang}){
   const photos=[
-    {src:"https://images.unsplash.com/photo-1555993539-1732b0258235?w=800&q=80",city:"Sofia",desc:"Alexander Nevsky Cathedral"},
-    {src:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",city:"Plovdiv",desc:"Old Town"},
-    {src:"https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?w=800&q=80",city:"Bansko",desc:"Pirin Mountains"},
-    {src:"https://images.unsplash.com/photo-1567021208000-e2b69c42c910?w=800&q=80",city:"Black Sea",desc:"Sunny Beach"},
-    {src:"https://images.unsplash.com/photo-1580204137373-fbf0e5b6e14b?w=800&q=80",city:"Rila",desc:"Rila Monastery"},
-    {src:"https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&q=80",city:"Nessebar",desc:"Ancient City"},
+    {src:"https://images.unsplash.com/photo-1753529179550-c6aff1b76e6e?w=800&q=80",city:"Sofia",desc:"Alexander Nevsky Cathedral"},
+    {src:"https://images.unsplash.com/photo-1672691993652-c0dc435011cc?w=800&q=80",city:"Plovdiv",desc:"Ancient Roman Theatre"},
+    {src:"https://images.unsplash.com/photo-1634758936912-d9d69a64f0e3?w=800&q=80",city:"Bansko",desc:"Holy Trinity Church"},
+    {src:"https://images.unsplash.com/photo-1757863842644-87f09cd67010?w=800&q=80",city:"Black Sea",desc:"Sunny Beach"},
+    {src:"https://images.unsplash.com/photo-1754404716672-de9c750f3c07?w=800&q=80",city:"Rila",desc:"Rila Monastery"},
+    {src:"https://images.unsplash.com/photo-1703356295253-5a4627b0feb8?w=800&q=80",city:"Nessebar",desc:"Ancient City"},
   ]
   const titles={en:"Discover Bulgaria",fr:"Découvrez la Bulgarie",es:"Descubre Bulgaria",de:"Entdecke Bulgarien",nl:"Ontdek Bulgarije"}
   const subs={en:"From mountain peaks to ancient cities and sun-soaked beaches",fr:"Des sommets montagneux aux villes antiques et plages ensoleillées",es:"De picos montañosos a ciudades antiguas y playas soleadas",de:"Von Berggipfeln zu antiken Städten und sonnigen Stränden",nl:"Van bergtoppen tot oude steden en zonnige stranden"}
