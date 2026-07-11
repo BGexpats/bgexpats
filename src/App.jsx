@@ -3543,7 +3543,41 @@ function PricingPage({user,setView,lang,openCheckout=()=>{}}){
 }
 
 export default function App(){
-  const [view,setView]=useState("home")
+  const [view,setViewState]=useState(()=>{
+    // On first load, honour a hash like #map so refresh/shared links work.
+    if(typeof window!=="undefined"&&window.location.hash){
+      const h=window.location.hash.replace(/^#/,"")
+      if(h)return h
+    }
+    return "home"
+  })
+  // Wrapped navigation: updates the view AND pushes a browser history entry so
+  // the browser Back/Forward buttons work between pages.
+  const setView=(v)=>{
+    setViewState(v)
+    if(typeof window!=="undefined"){
+      const target="#"+v
+      if(window.location.hash!==target){
+        window.history.pushState({view:v},"",target)
+      }
+    }
+  }
+  // React to browser Back/Forward: read the hash and update the view.
+  useEffect(()=>{
+    // Establish a baseline history entry on first load so the first Back press works.
+    if(typeof window!=="undefined"){
+      window.history.replaceState({view},"",window.location.hash||"#home")
+    }
+    const onPop=()=>{
+      const h=(window.location.hash||"").replace(/^#/,"")
+      setViewState(h||"home")
+      window.scrollTo(0,0)
+    }
+    window.addEventListener("popstate",onPop)
+    return()=>window.removeEventListener("popstate",onPop)
+  },[])
+  // Scroll to top whenever the page/view changes.
+  useEffect(()=>{ if(typeof window!=="undefined") window.scrollTo(0,0) },[view])
   const [installPrompt,setInstallPrompt]=useState(null)
   const [showInstall,setShowInstall]=useState(false)
   const [showIosHelp,setShowIosHelp]=useState(false)
