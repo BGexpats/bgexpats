@@ -1793,7 +1793,7 @@ function CommunityPage({user,setView,posts,setPosts}){
             {tabs.map(c=>(
               <button key={c} onClick={()=>setFilter(c)}
                 style={{background:filter===c?C.primary:C.surface,border:`1px solid ${filter===c?C.primary:C.border}`,color:filter===c?"#fff":C.text,padding:"6px 14px",borderRadius:20,cursor:"pointer",fontSize:13,fontWeight:filter===c?700:400,whiteSpace:"nowrap",flexShrink:0,transition:"all 0.15s"}}>
-                {c==="all"?"🌍 All":CAT_ICONS[c]+" "+c.charAt(0).toUpperCase()+c.slice(1)}
+                <span style={{display:"flex",alignItems:"center",gap:5}}><Icon2c d={(COMMUNITY_ICON_MAP[c]||{}).d} accent={(COMMUNITY_ICON_MAP[c]||{}).accent} size={14}/>{c==="all"?"All":c.charAt(0).toUpperCase()+c.slice(1)}</span>
               </button>
             ))}
           </div>
@@ -1807,7 +1807,7 @@ function CommunityPage({user,setView,posts,setPosts}){
                     <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",marginBottom:6}}>
                       <span style={{fontWeight:700,fontSize:14,color:C.text}}>{post.author}</span>
                       <span style={{fontSize:11,color:C.muted}}>{post.time}</span>
-                      <span style={{fontSize:11,background:CAT_COLORS[post.cat],padding:"2px 9px",borderRadius:10,color:C.text}}>{CAT_ICONS[post.cat]} {post.cat}</span>
+                      <span style={{fontSize:11,background:CAT_COLORS[post.cat],padding:"2px 9px",borderRadius:10,color:C.text,display:"inline-flex",alignItems:"center",gap:4}}><Icon2c d={(COMMUNITY_ICON_MAP[post.cat]||{}).d} accent={(COMMUNITY_ICON_MAP[post.cat]||{}).accent} size={12}/>{post.cat}</span>
                     </div>
                     <p style={{fontSize:14,color:C.text,margin:"0 0 12px",lineHeight:1.65}}>{post.content}</p>
                     <div style={{display:"flex",gap:14,paddingTop:10,borderTop:`1px solid ${C.border}`}}>
@@ -1868,7 +1868,7 @@ function CommunityPage({user,setView,posts,setPosts}){
             </div>
           )}
           <div style={{background:"linear-gradient(135deg,#6b21a8,#9333ea)",borderRadius:14,padding:"16px",textAlign:"center",marginBottom:0}}>
-            <div style={{fontSize:24,marginBottom:6}}>💑</div>
+            <div style={{marginBottom:6}}><Icon2c d={CONNECT_ICON_D} accent="#f0c060" size={24}/></div>
             <div style={{color:"#fff",fontWeight:700,fontSize:14,marginBottom:4}}>Meet & Connect</div>
             <p style={{color:"rgba(255,255,255,0.75)",fontSize:12,margin:"0 0 12px"}}>Find friends or romance with Bulgarians and expats</p>
             <button onClick={()=>setView("connect")} style={{background:"#fff",border:"none",color:"#6b21a8",padding:"8px",borderRadius:8,cursor:"pointer",fontSize:13,fontWeight:700,width:"100%"}}>Browse profiles →</button>
@@ -2586,6 +2586,67 @@ const CITY_DATA = {
   sliven:   {name:"Sliven",        flag:"🏔️",mult:0.42,rentBase:235, food:148,transport:37, utilities:67, dining:67, health:28,pop:"80K", vibe:"Balkan Mountain gateway — affordable, historic silk-weaving city"},
 }
 
+
+// ── 2C-style duotone icon helper ────────────────────────────────────
+function Icon2c({d,accent="#f0c060",size=16}){
+  return(
+    <svg width={size} height={size} viewBox="0 0 24 24" style={{flexShrink:0}}>
+      <path fill={accent} fillOpacity=".32" stroke="none" d={d}/>
+      <path fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" d={d}/>
+    </svg>
+  )
+}
+const TOOLS_ICON_MAP={
+  cost:{d:"M4 7a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7z M15 12a1.3 1.3 0 102.6 0 1.3 1.3 0 00-2.6 0z",accent:"#f0c060"},
+  tax:{d:"M5 20V11h3v9H5zm5.5 0V4h3v16h-3zM16 20v-6h3v6h-3z",accent:"#1d4ed8"},
+  visa:{d:"M7 2h8l3 3v17H7V2zM10 8h5M10 12h5M10 16h3",accent:"#16a34a"},
+  hood:{d:"M4 21V10l5-4 5 4v11M14 21V6l4 3v12M4 21h16M9 21v-5h2v5",accent:"#b8792a"},
+  fx:{d:"M4 7h13M17 7l-3.5-3.5M17 7l-3.5 3.5M20 17H7M7 17l3.5-3.5M7 17l3.5 3.5",accent:"#0891b2"},
+  checklist:{d:"M5 4h14v16H5z M8.5 12l2.5 2.5 4.5-5",accent:"#1e5e3f"},
+  phrases:{d:"M4 4h16v12H8l-4 4V4z M8 9h8M8 13h5",accent:"#7c3aed"},
+  docgen:{d:"M7 2h7l4 4v16H7V2zM11 8h5M11 12h5M11 16h5",accent:"#9333ea"},
+  relocate:{d:"M9 3l6 2 6-2v16l-6 2-6-2-6 2V5zM9 3v16M15 5v16",accent:"#f0c060"},
+  property:{d:"M4 11l8-7 8 7M6 10v10h12V10",accent:"#b45309"},
+  deadlines:{d:"M5 4h14v17H5z M5 9h14M9 2v4M15 2v4",accent:"#dc2626"},
+  hoodmatch:{d:"M12 21s7-7.5 7-12a7 7 0 10-14 0c0 4.5 7 12 7 12zM12 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z",accent:"#db2777"},
+  langcoach:{d:"M12 3l9 4-9 4-9-4 9-4zM5 10v4c0 1.5 3 3.2 7 3.2s7-1.7 7-3.2v-4",accent:"#16a34a"},
+  budget:{d:"M12 3a9 9 0 109 9h-9z M12 12V3a9 9 0 00-9 9 9 9 0 009 9",accent:"#1d4ed8"},
+}
+const MAP_ICON_MAP={
+  all:"M12 2a10 10 0 100 20 10 10 0 000-20zM2 12h20M12 2c2.5 2.7 4 6.2 4 10s-1.5 7.3-4 10c-2.5-2.7-4-6.2-4-10s1.5-7.3 4-10z",
+  health:"M12 2a10 10 0 100 20 10 10 0 000-20zm-1.2 5.5h2.4v3.8h3.8v2.4h-3.8v3.8h-2.4v-3.8H7v-2.4h3.8V7.5z",
+  bank:"M3 10l9-6 9 6M5 10v9M10 10v9M14 10v9M19 10v9M3 21h18",
+  legal:"M12 3v3M5 7l4-1M19 7l-4-1M5 7l-3 6.5a3 3 0 006 0zM19 7l-3 6.5a3 3 0 006 0zM8 21h8M12 6v15",
+  work:"M4 8h16v11H4zM9 8V6a2 2 0 012-2h2a2 2 0 012 2v2",
+  car:"M4 16l1.5-5A2 2 0 017.4 9.5h9.2a2 2 0 011.9 1.5L20 16v4h-2v-1H6v1H4zM6 16h.01M18 16h.01",
+  jobs:"M12 12a4 4 0 100-8 4 4 0 000 8zM4 21c0-4.4 3.6-7 8-7s8 2.6 8 7",
+  art:"M12 3a9 9 0 000 18c1.4 0 2-.9 2-1.8 0-.5-.2-1-.5-1.4-.3-.4-.5-.9-.5-1.4 0-1 .8-1.9 1.9-1.9H17a4 4 0 004-4c0-5-4-7.5-9-7.5zM7.5 11a1.3 1.3 0 100-2.6 1.3 1.3 0 000 2.6zm3-4a1.3 1.3 0 100-2.6 1.3 1.3 0 000 2.6zm5 0a1.3 1.3 0 100-2.6 1.3 1.3 0 000 2.6zm2 4a1.3 1.3 0 100-2.6 1.3 1.3 0 000 2.6z",
+  dining:"M7 2v8a2 2 0 002 2v10M7 2v8M9.3 2v8M17 2c-2.2 0-3.5 3-3.5 6.5S17 15 17 15v9",
+  party:"M12 2l1.2 4.4 4.4-1.2-2.6 3.8 3.8 2.6-4.4 1.2L12 17l-2.4-4.2-4.4-1.2 3.8-2.6L6.4 5.2l4.4 1.2z",
+  festival:"M12 3l9 8H3zM7 11v8M17 11v8M3 19h18",
+  disco:"M12 3a9 9 0 100 18 9 9 0 000-18zM3 12h18M12 3v18M6.5 6.5l11 11M17.5 6.5l-11 11",
+  piano:"M4 6h16v12H4zM7.5 6v8M11 6v8M13 6v8M16.5 6v8",
+  hotel:"M3 18v-7a2 2 0 012-2h6a2 2 0 012 2v1h6a2 2 0 012 2v4M3 18h18M7 11a2 2 0 100-4 2 2 0 000 4z",
+  cultural:"M4 21h16M5 21V10M9 21V10M15 21V10M19 21V10M3 10l9-6 9 6",
+  tradfest:"M12 3a9 9 0 00-9 9c0 3 2 5 4 6M12 3a9 9 0 019 9c0 3-2 5-4 6M8.5 10a1.2 1.2 0 100-2.4 1.2 1.2 0 000 2.4zm7 0a1.2 1.2 0 100-2.4 1.2 1.2 0 000 2.4zM9 15c1 1 2 1.5 3 1.5s2-.5 3-1.5",
+  wine:"M8 3h8l-1 6.2a3 3 0 01-3 2.8v0a3 3 0 01-3-2.8L8 3zM12 12v6M9 21h6",
+  summer:"M12 8a4 4 0 100 8 4 4 0 000-8zM12 3v2M12 19v2M4.2 12H6M18 12h1.8M6 6l1.3 1.3M16.7 16.7L18 18M18 6l-1.3 1.3M7.3 16.7L6 18",
+  winter:"M12 2v20M5 5l14 14M19 5L5 19M12 6.5l-2 2M12 6.5l2 2M12 17.5l-2-2M12 17.5l2-2",
+  hood:"M4 21V10l5-4 5 4v11M14 21V6l4 3v12M4 21h16",
+}
+const MAP_PIN_D="M12 21s7-7.5 7-12a7 7 0 10-14 0c0 4.5 7 12 7 12zM12 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"
+const COMMUNITY_ICON_MAP={
+  all:{d:MAP_ICON_MAP.all,accent:"#1e5e3f"},
+  general:{d:"M4 4h16v12H7l-3 3V4z",accent:"#6b7280"},
+  legal:{d:MAP_ICON_MAP.legal,accent:"#1d4ed8"},
+  healthcare:{d:MAP_ICON_MAP.health,accent:"#16a34a"},
+  banking:{d:MAP_ICON_MAP.bank,accent:"#b45309"},
+  tourism:{d:"M2 13l20-7-7 20-3-8-8-3z",accent:"#2563eb"},
+  housing:{d:"M4 11l8-7 8 7M6 10v10h12V10",accent:"#7c3aed"},
+  business:{d:MAP_ICON_MAP.work,accent:"#dc2626"},
+}
+const CONNECT_ICON_D="M12 20.5s-7-4.3-9.3-8.7C1.4 8.7 2.8 5.5 6 5.5c1.9 0 3.2 1.2 6 3.7 2.8-2.5 4.1-3.7 6-3.7 3.2 0 4.6 3.2 3.3 6.3-2.3 4.4-9.3 8.7-9.3 8.7z"
+
 const TOOLS_LIST=[
   {id:"cost",icon:"💰",label:"Cost of living",desc:"Budget + compare 8 cities"},
   {id:"tax",icon:"📊",label:"Tax calculator",desc:"Net income under Bulgarian tax"},
@@ -2639,7 +2700,7 @@ function ToolsPage({user,setView,trackEvent=()=>{},subscription}){
               return(
                 <button key={t.id} onClick={()=>{setActive(t.id);trackEvent("tool",t.id)}}
                   style={{width:"100%",background:active===t.id?C.primaryLight:"transparent",border:"none",borderLeft:`3px solid ${active===t.id?C.primary:"transparent"}`,padding:"11px 14px",cursor:"pointer",textAlign:"left",display:"flex",alignItems:"center",gap:8,transition:"all 0.15s"}}>
-                  <span style={{fontSize:16,flexShrink:0}}>{t.icon}</span>
+                  <Icon2c d={(TOOLS_ICON_MAP[t.id]||{}).d} accent={(TOOLS_ICON_MAP[t.id]||{}).accent} size={17}/>
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{fontSize:12,fontWeight:active===t.id?600:400,color:active===t.id?C.primary:C.text,display:"flex",alignItems:"center",gap:5}}>
                       {t.label}
@@ -2653,7 +2714,7 @@ function ToolsPage({user,setView,trackEvent=()=>{},subscription}){
           </div>
           <div style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:16,padding:"22px",boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
             <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:18,paddingBottom:14,borderBottom:`1px solid ${C.border}`}}>
-              <span style={{fontSize:24}}>{(tool&&tool.icon)}</span>
+              {tool&&<Icon2c d={(TOOLS_ICON_MAP[tool.id]||{}).d} accent={(TOOLS_ICON_MAP[tool.id]||{}).accent} size={24}/>}
               <div>
                 <h2 className="serif" style={{fontSize:19,fontWeight:400,color:C.text,margin:0}}>{(tool&&tool.label)}</h2>
                 <p style={{fontSize:13,color:C.muted,margin:0}}>{(tool&&tool.desc)}</p>
@@ -4878,7 +4939,7 @@ function ConnectPage({user,setView,subscription}){
       {/* Header */}
       <div style={{background:"linear-gradient(135deg,#6b21a8,#9333ea)",padding:"32px 20px 44px"}}>
         <div style={{maxWidth:1100,margin:"0 auto"}}>
-          <h1 className="serif" style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:400,margin:"0 0 6px"}}>💑 Meet & Connect</h1>
+          <h1 className="serif" style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:400,margin:"0 0 6px",display:"flex",alignItems:"center",gap:12}}><Icon2c d={CONNECT_ICON_D} accent="#f0c060" size={30}/>Meet & Connect</h1>
           <p style={{color:"rgba(255,255,255,0.75)",fontSize:15,margin:"0 0 10px",fontWeight:300}}>Connect expats and Bulgarians across Bulgaria</p>
           <div style={{display:"flex",gap:8,marginBottom:20,flexWrap:"wrap"}}>
             {[["🤝","Expat Friends","Basic"],["💼","Networking","Basic"],["🏠","Roommate Finder","Basic"],["💘","Dating","Premium"]].map(([icon,label,tier])=>(
@@ -5095,7 +5156,7 @@ function ConnectPage({user,setView,subscription}){
         {/* Upgrade gates */}
         {!user&&(
           <div style={{background:"linear-gradient(135deg,#6b21a8,#9333ea)",borderRadius:16,padding:"28px",textAlign:"center"}}>
-            <div style={{fontSize:28,marginBottom:10}}>💑</div>
+            <div style={{marginBottom:10}}><Icon2c d={CONNECT_ICON_D} accent="#f0c060" size={28}/></div>
             <h3 style={{color:"#fff",fontSize:18,fontWeight:700,margin:"0 0 8px"}}>See all {profiles.length} profiles</h3>
             <p style={{color:"rgba(255,255,255,0.75)",fontSize:14,margin:"0 0 18px"}}>Sign in free to see all members and express interest</p>
             <button onClick={()=>setView("login")} style={{background:"#fff",border:"none",color:"#6b21a8",padding:"12px 28px",borderRadius:10,cursor:"pointer",fontSize:15,fontWeight:700}}>Sign up free →</button>
