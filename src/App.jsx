@@ -1430,7 +1430,7 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
     <div style={{minHeight:"100vh",background:C.page}}>
       <div style={{maxWidth:820,margin:"0 auto",padding:"32px 20px 60px"}}>
         <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:26}}>
-          <div style={{width:46,height:46,borderRadius:13,background:cat.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:23}}>{cat.icon}</div>
+          <div style={{width:46,height:46,borderRadius:13,background:cat.bg,display:"flex",alignItems:"center",justifyContent:"center"}}><Icon2c d={(COMMUNITY_ICON_MAP[cat.id]||{}).d} accent={(COMMUNITY_ICON_MAP[cat.id]||{}).accent} size={23}/></div>
           <div>
             <h1 style={{fontSize:22,fontWeight:700,color:C.text,margin:0,fontFamily:"'Sora',sans-serif"}}>{lb.label}</h1>
             <p style={{fontSize:13,color:C.muted,margin:0}}>{cat.articles.length} {cat.articles.length>1?t.guides:t.guide}</p>
