@@ -4970,13 +4970,6 @@ function ConnectPage({user,setView,subscription}){
         <div style={{maxWidth:1100,margin:"0 auto"}}>
           <h1 className="serif" style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:400,margin:"0 0 6px",display:"flex",alignItems:"center",gap:12}}><Icon2c d={CONNECT_ICON_D} accent="#f0c060" size={30}/>Meet & Connect</h1>
           <p style={{color:"rgba(255,255,255,0.75)",fontSize:15,margin:"0 0 10px",fontWeight:300}}>Connect expats and Bulgarians across Bulgaria</p>
-          <div style={{display:"flex",gap:8,marginBottom:20,flexWrap:"wrap"}}>
-            {[["🤝","Expat Friends","Basic"],["💼","Networking","Basic"],["🏠","Roommate Finder","Basic"],["💘","Dating","Premium"]].map(([icon,label,tier])=>(
-              <span key={label} style={{background:"rgba(255,255,255,0.12)",border:`1px solid rgba(255,255,255,${tier==="Premium"?"0.4":"0.15"})`,borderRadius:20,padding:"4px 12px",fontSize:12,color:tier==="Premium"?"#f0c060":"rgba(255,255,255,0.85)",fontWeight:tier==="Premium"?600:400}}>
-                {icon} {label} {tier==="Premium"&&"✨"}
-              </span>
-            ))}
-          </div>
           <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
             {user?(
               <button onClick={()=>setShowCreate(!showCreate)} style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.3)",color:"#fff",padding:"9px 18px",borderRadius:10,cursor:"pointer",fontSize:14,fontWeight:600}}>
@@ -5065,28 +5058,41 @@ function ConnectPage({user,setView,subscription}){
         )}
 
         {/* Filters */}
-        <div style={{display:"flex",gap:8,marginBottom:20,flexWrap:"wrap",alignItems:"center"}}>
-          <div style={{display:"flex",gap:6}}>
-            {fromOpts.map(o=><button key={o.v} onClick={()=>setFilterFrom(o.v)} style={{padding:"6px 12px",borderRadius:16,border:`1.5px solid ${filterFrom===o.v?"#9333ea":C.border}`,background:filterFrom===o.v?"#f3e8ff":"transparent",color:filterFrom===o.v?"#6b21a8":C.muted,cursor:"pointer",fontSize:12,fontWeight:filterFrom===o.v?700:400,display:"flex",alignItems:"center",gap:5}}><Icon2c d={(CONNECT_ICON_MAP[o.v]||{}).d} accent={(CONNECT_ICON_MAP[o.v]||{}).accent} size={13}/>{o.l}</button>)}
+        <div style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:16,padding:"16px 18px",marginBottom:20,boxShadow:"0 2px 8px rgba(0,0,0,0.04)"}}>
+          <div style={{display:"flex",flexDirection:"column",gap:14}}>
+            <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",gap:10}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.muted,textTransform:"uppercase",letterSpacing:"0.05em",flexShrink:0,width:78}}>Show</div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                {fromOpts.map(o=><button key={o.v} onClick={()=>setFilterFrom(o.v)} style={{padding:"6px 12px",borderRadius:16,border:`1.5px solid ${filterFrom===o.v?"#9333ea":C.border}`,background:filterFrom===o.v?"#f3e8ff":"transparent",color:filterFrom===o.v?"#6b21a8":C.muted,cursor:"pointer",fontSize:12,fontWeight:filterFrom===o.v?700:400,display:"flex",alignItems:"center",gap:5}}><Icon2c d={(CONNECT_ICON_MAP[o.v]||{}).d} accent={(CONNECT_ICON_MAP[o.v]||{}).accent} size={13}/>{o.l}</button>)}
+              </div>
+            </div>
+            <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",gap:10}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.muted,textTransform:"uppercase",letterSpacing:"0.05em",flexShrink:0,width:78}}>Looking for</div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                {LOOKING_FOR_OPTS.map(o=>{
+                  const isDating=o.v==="dating"
+                  const locked=isDating&&!isPremium
+                  return(
+                    <button key={o.v}
+                      onClick={()=>locked?setView("pricing"):setFilterLooking(o.v)}
+                      style={{padding:"6px 14px",borderRadius:16,border:`1.5px solid ${filterLooking===o.v?"#9333ea":C.border}`,background:filterLooking===o.v?"#f3e8ff":"transparent",color:filterLooking===o.v?"#6b21a8":C.muted,cursor:"pointer",fontSize:12,fontWeight:filterLooking===o.v?700:400,display:"flex",alignItems:"center",gap:5,flexShrink:0}}>
+                      <Icon2c d={(CONNECT_ICON_MAP[o.v]||{}).d} accent={(CONNECT_ICON_MAP[o.v]||{}).accent} size={13}/> {o.l}
+                      {locked&&<span style={{fontSize:9,color:"#9333ea",fontWeight:600}}>· Premium</span>}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+            <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",justifyContent:"space-between",gap:10,paddingTop:10,borderTop:`1px solid ${C.border}`}}>
+              <div style={{display:"flex",alignItems:"center",gap:10}}>
+                <div style={{fontSize:11,fontWeight:600,color:C.muted,textTransform:"uppercase",letterSpacing:"0.05em",flexShrink:0,width:78}}>City</div>
+                <select value={filterCity} onChange={e=>setFilterCity(e.target.value)} style={{border:`1px solid ${C.border}`,borderRadius:10,padding:"6px 12px",fontSize:12,color:C.text,background:C.page,outline:"none"}}>
+                  {cities.map(c=><option key={c.v} value={c.v}>{c.l}</option>)}
+                </select>
+              </div>
+              <span style={{fontSize:12,color:C.muted,fontWeight:500}}>{visible.filter(p=>!p.team).length > 0 ? `${visible.length} members` : "Be the first member!"}</span>
+            </div>
           </div>
-          <div style={{display:"flex",gap:6}}>
-            {LOOKING_FOR_OPTS.map(o=>{
-              const isDating=o.v==="dating"
-              const locked=isDating&&!isPremium
-              return(
-                <button key={o.v}
-                  onClick={()=>locked?setView("pricing"):setFilterLooking(o.v)}
-                  style={{padding:"6px 14px",borderRadius:16,border:`1.5px solid ${filterLooking===o.v?"#9333ea":isDating&&!isPremium?"#f0c060":C.border}`,background:filterLooking===o.v?"#f3e8ff":isDating&&!isPremium?"#fffbeb":"transparent",color:filterLooking===o.v?"#6b21a8":isDating&&!isPremium?"#92400e":C.muted,cursor:"pointer",fontSize:12,fontWeight:filterLooking===o.v?700:400,display:"flex",alignItems:"center",gap:5,flexShrink:0}}>
-                  <Icon2c d={(CONNECT_ICON_MAP[o.v]||{}).d} accent={(CONNECT_ICON_MAP[o.v]||{}).accent} size={13}/> {o.l}
-                  {locked&&<span style={{fontSize:9,background:"#f0c060",color:"#1a3a20",padding:"1px 5px",borderRadius:4,fontWeight:700}}>PRO</span>}
-                </button>
-              )
-            })}
-          </div>
-          <select value={filterCity} onChange={e=>setFilterCity(e.target.value)} style={{border:`1px solid ${C.border}`,borderRadius:10,padding:"6px 12px",fontSize:12,color:C.text,background:C.page,outline:"none"}}>
-            {cities.map(c=><option key={c.v} value={c.v}>{c.l}</option>)}
-          </select>
-          <span style={{fontSize:12,color:C.muted,marginLeft:"auto"}}>{visible.filter(p=>!p.team).length > 0 ? `${visible.length} members` : "Be the first member!"}</span>
         </div>
 
         {/* Dating upsell */}
@@ -5140,7 +5146,7 @@ function ConnectPage({user,setView,subscription}){
                 <div style={{padding:"14px 16px"}}>
                   {/* Looking for badge */}
                   <div style={{display:"inline-flex",alignItems:"center",gap:4,background:`${lookColor}12`,border:`1px solid ${lookColor}30`,borderRadius:10,padding:"3px 10px",marginBottom:10,fontSize:12,fontWeight:600,color:lookColor}}>
-                    {p.lookingFor==="friends"?"🤝 Expat Friends":p.lookingFor==="networking"?"💼 Networking":p.lookingFor==="roommate"?"🏠 Roommate":p.lookingFor==="dating"?"💘 Dating":"💫 "+p.lookingFor}
+                    <Icon2c d={(CONNECT_ICON_MAP[p.lookingFor]||CONNECT_ICON_MAP.all).d} accent={(CONNECT_ICON_MAP[p.lookingFor]||CONNECT_ICON_MAP.all).accent} size={13}/> {p.lookingFor==="friends"?"Expat Friends":p.lookingFor==="networking"?"Networking":p.lookingFor==="roommate"?"Roommate":p.lookingFor==="dating"?"Dating":p.lookingFor}
                   </div>
 
                   {/* Bio */}
