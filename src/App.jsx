@@ -2378,10 +2378,10 @@ function NeighbourhoodTool({user,setView,subscription}){
       {/* Mode toggle */}
       <div style={{display:"flex",gap:8,marginBottom:12}}>
         <button onClick={()=>setMode("city")} style={{flex:1,padding:"7px",borderRadius:10,border:`1.5px solid ${mode==="city"?C.primary:C.border}`,background:mode==="city"?C.primaryLight:"transparent",color:mode==="city"?C.primary:C.muted,cursor:"pointer",fontSize:12,fontWeight:mode==="city"?600:400}}>
-          📍 By city
+          <span style={{display:"flex",alignItems:"center",gap:6}}><Icon2c d={MAP_PIN_D} accent="#1e5e3f" size={14}/>By city</span>
         </button>
         <button onClick={()=>isBasic?setMode("allcities"):setView("pricing")} style={{flex:1,padding:"7px",borderRadius:10,border:`1.5px solid ${mode==="allcities"?C.accent:C.border}`,background:mode==="allcities"?C.accentLight:"transparent",color:mode==="allcities"?C.accent:C.muted,cursor:"pointer",fontSize:12,fontWeight:mode==="allcities"?600:400,display:"flex",alignItems:"center",justifyContent:"center",gap:5}}>
-          🌍 All cities
+          <span style={{display:"flex",alignItems:"center",gap:6}}><Icon2c d={MAP_ICON_MAP.all} accent="#b8792a" size={14}/>All cities</span>
           {!isBasic&&<span style={{fontSize:9,background:"#fef3c7",color:"#92400e",padding:"1px 5px",borderRadius:5,fontWeight:700}}>BASIC</span>}
         </button>
       </div>
@@ -2546,7 +2546,7 @@ function ChecklistTool({user,setView}){
 function PhraseTool(){
   const [cat,setCat]=useState("basics")
   const [q,setQ]=useState("")
-  const cats=[{v:"basics",l:"Basics 🗣️"},{v:"bank",l:"Banking 🏦"},{v:"health",l:"Health 🏥"},{v:"transport",l:"Transport 🚌"},{v:"emergency",l:"Emergency 🚨"}]
+  const cats=[{v:"basics",l:"Basics"},{v:"bank",l:"Banking"},{v:"health",l:"Health"},{v:"transport",l:"Transport"},{v:"emergency",l:"Emergency"}]
   const list=PHRASES[cat]||[]
   const filtered=q?Object.values(PHRASES).flat().filter(p=>p.en.toLowerCase().includes(q.toLowerCase())||p.ph.toLowerCase().includes(q.toLowerCase())):list
   return(
@@ -2554,7 +2554,7 @@ function PhraseTool(){
       <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search phrases in English..." style={{width:"100%",border:`1.5px solid ${C.border}`,borderRadius:10,padding:"10px 14px",fontSize:14,outline:"none",color:C.text,background:C.page,marginBottom:12,boxSizing:"border-box"}}/>
       {!q&&(
         <div style={{display:"flex",gap:6,marginBottom:14,flexWrap:"wrap"}}>
-          {cats.map(c=><button key={c.v} onClick={()=>setCat(c.v)} style={{padding:"5px 12px",borderRadius:16,border:`1.5px solid ${cat===c.v?C.primary:C.border}`,background:cat===c.v?C.primaryLight:"transparent",color:cat===c.v?C.primary:C.muted,cursor:"pointer",fontSize:12,fontWeight:cat===c.v?600:400}}>{c.l}</button>)}
+          {cats.map(c=><button key={c.v} onClick={()=>setCat(c.v)} style={{padding:"5px 12px",borderRadius:16,border:`1.5px solid ${cat===c.v?C.primary:C.border}`,background:cat===c.v?C.primaryLight:"transparent",color:cat===c.v?C.primary:C.muted,cursor:"pointer",fontSize:12,fontWeight:cat===c.v?600:400,display:"flex",alignItems:"center",gap:5}}><Icon2c d={(PHRASE_CAT_ICON_MAP[c.v]||{}).d} accent={(PHRASE_CAT_ICON_MAP[c.v]||{}).accent} size={13}/>{c.l}</button>)}
         </div>
       )}
       <div style={{display:"flex",flexDirection:"column",gap:8}}>
@@ -2623,6 +2623,13 @@ const EXPENSE_ICON_MAP={
   salary:{d:"M4 8h16v11H4zM9 8V6a2 2 0 012-2h2a2 2 0 012 2v2",accent:"#dc2626"},
   freelance:{d:"M4 6h16v12H4zM4 10h16M8 14h4",accent:"#9333ea"},
   other:{d:"M12 2l1.2 4.4 4.4-1.2-2.6 3.8 3.8 2.6-4.4 1.2L12 17l-2.4-4.2-4.4-1.2 3.8-2.6L6.4 5.2l4.4 1.2z",accent:"#6b7280"},
+}
+const PHRASE_CAT_ICON_MAP={
+  basics:{d:"M4 4h16v12H8l-4 4V4z M8 9h8M8 13h5",accent:"#7c3aed"},
+  bank:{d:"M3 10l9-6 9 6M5 10v9M10 10v9M14 10v9M19 10v9M3 21h18",accent:"#1d4ed8"},
+  health:{d:"M12 2a10 10 0 100 20 10 10 0 000-20zm-1.2 5.5h2.4v3.8h3.8v2.4h-3.8v3.8h-2.4v-3.8H7v-2.4h3.8V7.5z",accent:"#16a34a"},
+  transport:{d:"M4 16l1.5-5A2 2 0 017.4 9.5h9.2a2 2 0 011.9 1.5L20 16v4h-2v-1H6v1H4zM6 16h.01M18 16h.01",accent:"#0891b2"},
+  emergency:{d:"M12 2l9 4.5v6c0 5-3.5 8.5-9 9.5-5.5-1-9-4.5-9-9.5v-6L12 2zM12 8v5M12 16h.01",accent:"#dc2626"},
 }
 const MAP_ICON_MAP={
   all:"M12 2a10 10 0 100 20 10 10 0 000-20zM2 12h20M12 2c2.5 2.7 4 6.2 4 10s-1.5 7.3-4 10c-2.5-2.7-4-6.2-4-10s1.5-7.3 4-10z",
