@@ -5068,29 +5068,32 @@ function ConnectPage({user,setView,subscription}){
   return(
     <div style={{minHeight:"100vh",background:C.page}}>
 
-      {/* Header */}
-      <div style={{background:"linear-gradient(135deg,#6b21a8,#9333ea)",padding:"32px 20px 44px"}}>
-        <div style={{maxWidth:1100,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:32,alignItems:"center"}}>
-          <div>
-            <h1 className="serif" style={{color:"#fff",fontSize:"clamp(24px,4vw,38px)",fontWeight:400,margin:"0 0 6px",display:"flex",alignItems:"center",gap:12}}><Icon2c d={CONNECT_ICON_D} accent="#f0c060" size={30}/>Meet & Connect</h1>
-            <p style={{color:"rgba(255,255,255,0.75)",fontSize:15,margin:"0 0 10px",fontWeight:300}}>Connect expats and Bulgarians across Bulgaria</p>
+      {/* Header — full-bleed hero: photo covers the whole banner, text sits on top */}
+      <div style={{position:"relative",overflow:"hidden",minHeight:260,display:"flex",alignItems:"center",padding:"48px 20px 56px"}}>
+        {/* Background photo */}
+        <img src={connectHeroImg} alt="" aria-hidden="true" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 35%"}}/>
+        {/* Purple tint + darkening gradient so the white text stays readable */}
+        <div style={{position:"absolute",inset:0,background:"linear-gradient(135deg,rgba(107,33,168,0.88),rgba(147,51,234,0.62))"}}/>
+        <div style={{position:"absolute",inset:0,background:"linear-gradient(90deg,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.25) 45%,rgba(0,0,0,0) 75%)"}}/>
+        {/* Content */}
+        <div style={{position:"relative",zIndex:1,maxWidth:1100,margin:"0 auto",width:"100%"}}>
+          <div style={{maxWidth:620}}>
+            <h1 className="serif" style={{color:"#fff",fontSize:"clamp(26px,4.4vw,42px)",fontWeight:400,margin:"0 0 8px",display:"flex",alignItems:"center",gap:12,textShadow:"0 2px 12px rgba(0,0,0,0.35)"}}><Icon2c d={CONNECT_ICON_D} accent="#f0c060" size={30}/>Meet &amp; Connect</h1>
+            <p style={{color:"rgba(255,255,255,0.9)",fontSize:16,margin:"0 0 16px",fontWeight:300,textShadow:"0 1px 8px rgba(0,0,0,0.35)"}}>Connect expats and Bulgarians across Bulgaria</p>
             <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
             {user?(
-              <button onClick={()=>setShowCreate(!showCreate)} style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.3)",color:"#fff",padding:"9px 18px",borderRadius:10,cursor:"pointer",fontSize:14,fontWeight:600}}>
+              <button onClick={()=>setShowCreate(!showCreate)} style={{background:"rgba(255,255,255,0.18)",backdropFilter:"blur(6px)",border:"1px solid rgba(255,255,255,0.35)",color:"#fff",padding:"10px 20px",borderRadius:10,cursor:"pointer",fontSize:14,fontWeight:600}}>
                 {showCreate?"✕ Close":"✏️ Create my profile"}
               </button>
             ):(
-              <button onClick={()=>setView("login")} style={{background:"#fff",border:"none",color:"#6b21a8",padding:"9px 18px",borderRadius:10,cursor:"pointer",fontSize:14,fontWeight:700}}>
+              <button onClick={()=>setView("login")} style={{background:"#fff",border:"none",color:"#6b21a8",padding:"10px 20px",borderRadius:10,cursor:"pointer",fontSize:14,fontWeight:700,boxShadow:"0 4px 16px rgba(0,0,0,0.2)"}}>
                 Sign in to create your profile →
               </button>
             )}
-            <button onClick={()=>setShowSafety(!showSafety)} style={{background:"rgba(255,255,255,0.1)",border:"1px solid rgba(255,255,255,0.2)",color:"rgba(255,255,255,0.8)",padding:"9px 18px",borderRadius:10,cursor:"pointer",fontSize:14}}>
+            <button onClick={()=>setShowSafety(!showSafety)} style={{background:"rgba(255,255,255,0.12)",backdropFilter:"blur(6px)",border:"1px solid rgba(255,255,255,0.28)",color:"rgba(255,255,255,0.92)",padding:"10px 20px",borderRadius:10,cursor:"pointer",fontSize:14}}>
               <span style={{display:"flex",alignItems:"center",gap:6}}><Icon2c d={CONNECT_ICON_MAP.shield.d} accent="#f0c060" size={14}/>Safety tips</span>
             </button>
             </div>
-          </div>
-          <div>
-            <img src={connectHeroImg} alt="A man and a woman meeting warmly at sunset" style={{width:"100%",height:220,objectFit:"cover",borderRadius:20,boxShadow:"0 12px 32px rgba(0,0,0,0.25)",border:"1px solid rgba(255,255,255,0.25)"}}/>
           </div>
         </div>
       </div>
