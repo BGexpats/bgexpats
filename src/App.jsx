@@ -2474,24 +2474,56 @@ function NeighbourhoodTool({user,setView,subscription}){
 function CurrencyTool(){
   const [amount,setAmount]=useState(100)
   const [base,setBase]=useState("EUR")
-  const RATES={EUR:1,USD:1.09,GBP:0.85,CHF:0.96,SEK:11.2,DKK:7.46,NOK:11.6,PLN:4.28,RON:4.97,TRY:38.2,CAD:1.50,AUD:1.67}
-      const CURRENCIES=["EUR","USD","GBP","CHF","SEK","DKK","NOK","PLN","RON"]
+  // Fallback rates (per 1 EUR) — used if the live fetch fails.
+  const FALLBACK={EUR:1,USD:1.09,GBP:0.85,CHF:0.96,SEK:11.2,DKK:7.46,NOK:11.6,PLN:4.28,RON:4.97,TRY:38.2,CAD:1.50,AUD:1.67}
+  const CURRENCIES=["EUR","USD","GBP","CHF","SEK","DKK","NOK","PLN","RON","TRY","CAD","AUD"]
+  const [rates,setRates]=useState(FALLBACK)
+  const [liveRates,setLiveRates]=useState(false)
+  const [ratesUpdated,setRatesUpdated]=useState("Indicative rates")
+
+  // Try to pull live rates. If anything fails, we silently keep the fallback.
+  useEffect(()=>{
+    let cancelled=false
+    ;(async()=>{
+      try{
+        const res=await fetch("https://api.frankfurter.app/latest?from=EUR")
+        if(!res.ok)throw new Error("bad response")
+        const data=await res.json()
+        if(cancelled||!data||!data.rates)return
+        setRates({EUR:1,...data.rates})
+        setLiveRates(true)
+        setRatesUpdated(data.date||"today")
+      }catch{
+        // keep fallback rates — no action needed
+      }
+    })()
+    return()=>{cancelled=true}
+  },[])
+
+  // Convert `amount` of `base` into currency `c`.
+  const convert=(c)=>{
+    const from=rates[base]
+    const to=rates[c]
+    if(!from||!to)return "—"
+    const value=(Number(amount)||0)/from*to
+    return value.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})
+  }
+
   return(
     <div>
       <div style={{display:"flex",gap:10,marginBottom:16}}>
-        <input type="number" value={amount} onChange={e=>setAmount(Number(e.target.value)||0)} style={{flex:1,border:`1.5px solid ${C.border}`,borderRadius:10,padding:"12px 14px",fontSize:22,fontWeight:600,color:C.text,background:C.page,outline:"none"}}/>
-        <select value={base} onChange={e=>setBase(e.target.value)} style={{border:`1.5px solid ${C.primary}`,borderRadius:10,padding:"12px 14px",fontSize:15,fontWeight:600,color:C.primary,background:C.primaryLight,outline:"none"}}>
-          {CURRENCIES.map(c=><option key={c} value={c}>{c}</option>)}
+        <input type="number" value={amount} onChange={e=>setAmount(Number(e.target.value)||0)} style={{flex:1,minWidth:0,border:`1.5px solid ${C.border}`,borderRadius:10,padding:"12px 14px",fontSize:22,fontWeight:600,color:C.text,background:C.page,outline:"none"}}/>
+        <select value={base} onChange={e=>setBase(e.target.value)} style={{flexShrink:0,border:`1.5px solid ${C.primary}`,borderRadius:10,padding:"12px 14px",fontSize:15,fontWeight:600,color:C.primary,background:C.primaryLight,outline:"none"}}>
+          {CURRENCIES.filter(c=>rates[c]).map(c=><option key={c} value={c}>{c}</option>)}
         </select>
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:7}}>
-        {CURRENCIES.filter(c=>c!==base).map(c=>(
-          <div key={c} style={{display:"flex",justifyContent:"space-between",alignItems:"center",background:c==="EUR"?C.primaryLight:C.page,border:`1px solid ${c==="EUR"?C.primary:C.border}`,borderRadius:10,padding:"10px 16px"}}>
-            <div>
+        {CURRENCIES.filter(c=>c!==base&&rates[c]).map(c=>(
+          <div key={c} style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:10,background:c==="EUR"?C.primaryLight:C.page,border:`1px solid ${c==="EUR"?C.primary:C.border}`,borderRadius:10,padding:"10px 16px"}}>
+            <div style={{minWidth:0}}>
               <span style={{fontSize:14,fontWeight:c==="EUR"?700:500,color:c==="EUR"?C.primary:C.text}}>{c}</span>
-              {c==="EUR"&&<span style={{fontSize:10,color:C.primary,marginLeft:6,background:"#c8dece",padding:"1px 6px",borderRadius:6}}>Fixed rate 1.95583</span>}
             </div>
-            <span style={{fontSize:16,fontWeight:600,color:c==="EUR"?C.primary:C.text}}>{convert(c)}</span>
+            <span style={{fontSize:16,fontWeight:600,color:c==="EUR"?C.primary:C.text,whiteSpace:"nowrap"}}>{convert(c)}</span>
           </div>
         ))}
       </div>
