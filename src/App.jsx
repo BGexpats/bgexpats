@@ -575,7 +575,7 @@ All legally resident children (EU and non-EU) have the right to free public educ
     labels:{en:{label:"Tourism & Travel",sub:"Places, tips, getting around"},fr:{label:"Tourisme & Voyages",sub:"Lieux, conseils, transports"},es:{label:"Turismo y Viajes",sub:"Lugares, consejos, transporte"},de:{label:"Tourismus & Reisen",sub:"Orte, Tipps, Mobilität"},nl:{label:"Toerisme & Reizen",sub:"Plaatsen, tips, vervoer"},ru:{label:"Туризм и путешествия",sub:"Места, транспорт, советы"},uk:{label:"Туризм та подорожі",sub:"Місця, транспорт, поради"},tr:{label:"Turizm ve Seyahat",sub:"Yerler, ulaşım, ipuçları"},bg:{label:"Туризъм и пътувания",sub:"Места, транспорт, съвети"}},
     articles:[
       {titles:{en:"Top places to visit in Bulgaria",fr:"Les incontournables de la Bulgarie",es:"Los mejores lugares para visitar en Bulgaria",de:"Top-Sehenswürdigkeiten in Bulgarien",nl:"Topbestemmingen in Bulgarije"},
-       body:`Bulgaria is one of Europe's most underrated destinations.\n\n**Sofia** — the capital. Must-see: Alexander Nevsky Cathedral (free), Vitosha Mountain (15 min from center), Boyana Church (UNESCO), Vitosha Blvd for shopping and coffee.\n\n**Plovdiv** — older than Rome. Cobblestone Old Town (Stari Grad) with a working Roman amphitheater. 2 hours from Sofia. Very walkable.\n\n**Bansko** — best ski resort in Bulgaria (Pirin Mountains). Excellent skiing (Dec–Mar) and hiking (summer). Great restaurants and nightlife.\n\n**Black Sea** — Varna city is beautiful. Sunny Beach is the big resort. Golden Sands is more pleasant.\n\n**Rila Monastery** — UNESCO site, one of the most beautiful monasteries in the Balkans. Easy day trip from Sofia.\n\n**Veliko Tarnovo** — dramatic medieval capital on a hilltop. Tsarevets Fortress has a famous sound-and-light show.\n\n💡 Best time to visit: May–June or September–October. Warm, not crowded.`},
+       body:`Bulgaria is one of Europe's most underrated destinations.\n\n**Sofia** — the capital. Must-see: Alexander Nevsky Cathedral (free), Vitosha Mountain (15 min from center), Boyana Church (UNESCO), Vitosha Blvd for shopping and coffee.\n\n**Plovdiv** — older than Rome. Cobblestone Old Town (Stari Grad) with a working Roman amphitheater. 2 hours from Sofia. Very walkable.\n\n**Bansko** — best ski resort in Bulgaria (Pirin Mountains). Excellent skiing (Dec–Mar) and hiking (summer). Great restaurants and nightlife.\n\n**[[travel-black-sea|Black Sea]]** — Varna city is beautiful. Sunny Beach is the big resort. Golden Sands is more pleasant. 👉 Tap to explore the coast, its resorts and top places.\n\n**Rila Monastery** — UNESCO site, one of the most beautiful monasteries in the Balkans. Easy day trip from Sofia.\n\n**Veliko Tarnovo** — dramatic medieval capital on a hilltop. Tsarevets Fortress has a famous sound-and-light show.\n\n💡 Best time to visit: May–June or September–October. Warm, not crowded.`},
       {titles:{en:"Getting around Bulgaria",fr:"Se déplacer en Bulgarie",es:"Moverse por Bulgaria",de:"In Bulgarien unterwegs",nl:"Vervoer in Bulgarije",ru:"Передвижение по Болгарии",uk:"Пересування Болгарією",tr:"Bulgaristan'da ulaşım",bg:"Придвижване в България"},
        body:`**By bus (recommended):**\n• Sofia → Plovdiv: 1h45m, €6\n• Sofia → Varna: 6h, €15\n• Book at bus stations or avtogara.bg\n\n**By train:**\n• Sofia → Plovdiv: €5, ~2.5h. Slower but scenic.\n• Book at bdz.bg (English available)\n\n**By car:**\n• Motorway vignette required: €8/week or €15/month\n• Parking in Sofia: €0.80–1/hour (blue zone, pay by SMS)\n\n**In Sofia:**\n• Metro, trams, buses — ticket €0.80, day pass €2\n• Sofia Traffic app for routes\n\n**Taxis:**\n• Use Bolt or Yandex Go apps — cheaper and safer than street taxis\n• Avoid unmarked taxis at airports\n\n💡 Buses are usually faster than trains and similarly priced.`},
     ]
@@ -1438,11 +1438,16 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
   }
 
   const renderInline=(str)=>
-    str.split(/(\*\*[^*]+\*\*)/g).map((chunk,k)=>
-      chunk.startsWith("**")&&chunk.endsWith("**")
-        ?<strong key={k} style={{fontWeight:700,color:C.text}}>{chunk.slice(2,-2)}</strong>
-        :<Fragment key={k}>{chunk}</Fragment>
-    )
+    // Split on both **bold** and [[view|label]] link markers.
+    str.split(/(\*\*[^*]+\*\*|\[\[[^\]]+\]\])/g).map((chunk,k)=>{
+      if(chunk.startsWith("**")&&chunk.endsWith("**"))
+        return<strong key={k} style={{fontWeight:700,color:C.text}}>{chunk.slice(2,-2)}</strong>
+      if(chunk.startsWith("[[")&&chunk.endsWith("]]")){
+        const[target,label]=chunk.slice(2,-2).split("|")
+        return<button key={k} onClick={()=>setView(target)} style={{background:"none",border:"none",padding:0,color:C.primary,fontWeight:700,cursor:"pointer",textDecoration:"underline",fontSize:"inherit",fontFamily:"inherit"}}>{label||target}</button>
+      }
+      return<Fragment key={k}>{chunk}</Fragment>
+    })
 
   const formatBody=(text)=>{
     const lines=text.split("\n")
@@ -1470,8 +1475,8 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
       const boldLead=line.match(/^\*\*(.+?)\*\*\s*(.*)$/)
       if(boldLead){
         const[,label,rest]=boldLead
-        if(!rest)return<div key={i} style={{fontSize:16,fontWeight:600,color:C.text,margin:"14px 0 4px",lineHeight:1.5,fontFamily:"'Sora',sans-serif"}}>{label}</div>
-        return<div key={i} style={{margin:"10px 0 2px",fontSize:14,lineHeight:1.7,color:C.text,fontFamily:"'Inter',sans-serif"}}><span style={{fontWeight:700,color:C.primary}}>{label}</span> {renderInline(rest)}</div>
+        if(!rest)return<div key={i} style={{fontSize:16,fontWeight:600,color:C.text,margin:"14px 0 4px",lineHeight:1.5,fontFamily:"'Sora',sans-serif"}}>{renderInline(label)}</div>
+        return<div key={i} style={{margin:"10px 0 2px",fontSize:14,lineHeight:1.7,color:C.text,fontFamily:"'Inter',sans-serif"}}><span style={{fontWeight:700,color:C.primary}}>{renderInline(label)}</span> {renderInline(rest)}</div>
       }
       if(line.trim()==="")return<div key={i} style={{height:6}}/>
       return<div key={i} style={{lineHeight:1.75,color:C.text,fontSize:14,fontFamily:"'Inter',sans-serif"}}>{renderInline(line)}</div>
@@ -4014,6 +4019,117 @@ function AccountPage({user,setUser,setView}){
   )
 }
 
+// ── Travel Guide Pages ───────────────────────────────────────────
+function TravelRegionPage({regionId,setView}){
+  const region=TRAVEL_GUIDE[regionId]
+  const [isMobile,setIsMobile]=useState(typeof window!=="undefined"&&window.innerWidth<=768)
+  useEffect(()=>{
+    const r=()=>setIsMobile(window.innerWidth<=768)
+    window.addEventListener("resize",r);return()=>window.removeEventListener("resize",r)
+  },[])
+  if(!region)return<div style={{padding:40,textAlign:"center",color:C.muted}}>Region not found.</div>
+
+  return(
+    <div style={{minHeight:"100vh",background:C.page}}>
+      {/* Hero */}
+      <div style={{position:"relative",overflow:"hidden",minHeight:isMobile?180:230,display:"flex",alignItems:"flex-end",padding:isMobile?"20px 16px":"28px 20px"}}>
+        {region.hero?<img src={region.hero} alt="" aria-hidden="true" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}/>:<div style={{position:"absolute",inset:0,background:`linear-gradient(135deg,${C.primary},#2a7a52)`}}/>}
+        <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.75),rgba(0,0,0,0.15))"}}/>
+        <div style={{position:"relative",zIndex:1,maxWidth:1000,margin:"0 auto",width:"100%"}}>
+          <button onClick={()=>setView("tourism")} style={{background:"rgba(255,255,255,0.2)",border:"1px solid rgba(255,255,255,0.35)",color:"#fff",padding:"5px 12px",borderRadius:20,cursor:"pointer",fontSize:12,marginBottom:12}}>← Back to Tourism</button>
+          <h1 className="serif" style={{color:"#fff",fontSize:"clamp(24px,4.5vw,38px)",fontWeight:400,margin:"0 0 4px",textShadow:"0 2px 12px rgba(0,0,0,0.4)"}}>{region.name}</h1>
+          <p style={{color:"rgba(255,255,255,0.9)",fontSize:isMobile?13:15,margin:0,fontWeight:300,textShadow:"0 1px 8px rgba(0,0,0,0.4)"}}>{region.tagline}</p>
+        </div>
+      </div>
+
+      <div style={{maxWidth:1000,margin:"0 auto",padding:isMobile?"20px 14px 40px":"28px 20px 48px"}}>
+        {region.intro&&<p style={{fontSize:15,color:C.text,lineHeight:1.7,margin:"0 0 22px",maxWidth:700}}>{region.intro}</p>}
+        <h2 className="serif" style={{fontSize:18,fontWeight:600,color:C.text,margin:"0 0 14px"}}>Destinations</h2>
+        <div style={{display:"grid",gridTemplateColumns:isMobile?"1fr":"repeat(auto-fill,minmax(260px,1fr))",gap:14}}>
+          {region.cities.map(city=>(
+            <button key={city.id} onClick={()=>setView(`travel-${regionId}-${city.id}`)}
+              style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:14,overflow:"hidden",cursor:"pointer",textAlign:"left",padding:0,boxShadow:"0 2px 8px rgba(0,0,0,0.05)",transition:"transform 0.15s"}}
+              onMouseEnter={e=>e.currentTarget.style.transform="translateY(-3px)"}
+              onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}>
+              <div style={{height:130,background:C.primaryLight,position:"relative",overflow:"hidden"}}>
+                {city.hero?<img src={city.hero} alt={city.name} style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:C.primary,fontSize:32,fontWeight:700,opacity:0.3}}>{city.name.slice(0,2)}</div>}
+              </div>
+              <div style={{padding:"14px 16px"}}>
+                <div style={{fontSize:16,fontWeight:700,color:C.text,marginBottom:2}}>{city.name}</div>
+                <div style={{fontSize:13,color:C.muted,marginBottom:8}}>{city.tagline}</div>
+                <span style={{fontSize:13,color:C.primary,fontWeight:600}}>Explore {city.name} →</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function TravelCityPage({regionId,cityId,setView}){
+  const region=TRAVEL_GUIDE[regionId]
+  const city=region&&region.cities.find(c=>c.id===cityId)
+  const [filter,setFilter]=useState("all")
+  const [isMobile,setIsMobile]=useState(typeof window!=="undefined"&&window.innerWidth<=768)
+  useEffect(()=>{
+    const r=()=>setIsMobile(window.innerWidth<=768)
+    window.addEventListener("resize",r);return()=>window.removeEventListener("resize",r)
+  },[])
+  if(!city)return<div style={{padding:40,textAlign:"center",color:C.muted}}>Place not found.</div>
+
+  const typesPresent=[...new Set(city.places.map(p=>p.type))]
+  const shown=filter==="all"?city.places:city.places.filter(p=>p.type===filter)
+
+  return(
+    <div style={{minHeight:"100vh",background:C.page}}>
+      {/* Hero */}
+      <div style={{position:"relative",overflow:"hidden",minHeight:isMobile?190:250,display:"flex",alignItems:"flex-end",padding:isMobile?"20px 16px":"30px 20px"}}>
+        {city.hero?<img src={city.hero} alt="" aria-hidden="true" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}/>:<div style={{position:"absolute",inset:0,background:`linear-gradient(135deg,${C.primary},#2a7a52)`}}/>}
+        <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.78),rgba(0,0,0,0.15))"}}/>
+        <div style={{position:"relative",zIndex:1,maxWidth:1000,margin:"0 auto",width:"100%"}}>
+          <button onClick={()=>setView(`travel-${regionId}`)} style={{background:"rgba(255,255,255,0.2)",border:"1px solid rgba(255,255,255,0.35)",color:"#fff",padding:"5px 12px",borderRadius:20,cursor:"pointer",fontSize:12,marginBottom:12}}>← Back to {region.name}</button>
+          <h1 className="serif" style={{color:"#fff",fontSize:"clamp(26px,5vw,42px)",fontWeight:400,margin:"0 0 4px",textShadow:"0 2px 12px rgba(0,0,0,0.4)"}}>{city.name}</h1>
+          <p style={{color:"rgba(255,255,255,0.9)",fontSize:isMobile?13:15,margin:0,fontWeight:300,textShadow:"0 1px 8px rgba(0,0,0,0.4)"}}>{city.tagline}</p>
+        </div>
+      </div>
+
+      <div style={{maxWidth:1000,margin:"0 auto",padding:isMobile?"20px 14px 40px":"28px 20px 48px"}}>
+        {city.intro&&<p style={{fontSize:15,color:C.text,lineHeight:1.7,margin:"0 0 20px",maxWidth:700}}>{city.intro}</p>}
+
+        {/* Type filter */}
+        <div style={{display:"flex",gap:6,overflowX:"auto",paddingBottom:8,marginBottom:18,scrollbarWidth:"none"}}>
+          <button onClick={()=>setFilter("all")} style={{padding:"6px 14px",borderRadius:16,border:`1.5px solid ${filter==="all"?C.primary:C.border}`,background:filter==="all"?C.primaryLight:"transparent",color:filter==="all"?C.primary:C.muted,cursor:"pointer",fontSize:13,fontWeight:filter==="all"?700:400,flexShrink:0}}>All</button>
+          {typesPresent.map(t=>{
+            const pt=PLACE_TYPES[t]||{label:t,color:C.muted}
+            return<button key={t} onClick={()=>setFilter(t)} style={{padding:"6px 14px",borderRadius:16,border:`1.5px solid ${filter===t?pt.color:C.border}`,background:filter===t?pt.bg:"transparent",color:filter===t?pt.color:C.muted,cursor:"pointer",fontSize:13,fontWeight:filter===t?700:400,flexShrink:0}}>{pt.label}s</button>
+          })}
+        </div>
+
+        {/* Places grid */}
+        <div style={{display:"grid",gridTemplateColumns:isMobile?"1fr":"repeat(auto-fill,minmax(280px,1fr))",gap:14}}>
+          {shown.map((place,i)=>{
+            const pt=PLACE_TYPES[place.type]||{label:place.type,color:C.muted,bg:C.page}
+            return(
+              <div key={i} style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:14,overflow:"hidden",boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
+                <div style={{height:150,background:C.primaryLight,position:"relative",overflow:"hidden"}}>
+                  {place.img?<img src={place.img} alt={place.name} style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:pt.color,fontSize:13,opacity:0.5}}>No photo yet</div>}
+                  <span style={{position:"absolute",top:10,left:10,background:pt.bg,color:pt.color,fontSize:11,fontWeight:700,padding:"3px 10px",borderRadius:12}}>{pt.label}</span>
+                </div>
+                <div style={{padding:"14px 16px"}}>
+                  <div style={{fontSize:16,fontWeight:700,color:C.text,marginBottom:3}}>{place.name}</div>
+                  {place.area&&<div style={{fontSize:12,color:C.muted,marginBottom:6,display:"flex",alignItems:"center",gap:4}}>📍 {place.area}</div>}
+                  <p style={{fontSize:13,color:C.text,lineHeight:1.6,margin:0}}>{place.desc}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function App(){
   const [view,setViewState]=useState(()=>{
     // On first load, honour a hash like #map so refresh/shared links work.
@@ -4286,6 +4402,18 @@ export default function App(){
         <CommunityPage user={user} setView={setView} posts={posts} setPosts={setPosts}/>
       ):view==="chat"?(
         <ChatPage lang={lang} t={t}/>
+      ):view.startsWith("travel-")?(
+        (()=>{
+          // travel-<region>  or  travel-<region>-<city>
+          const parts=view.slice(7).split("-")
+          // region ids may contain a hyphen (e.g. "black-sea"), so match against known regions
+          const regionId=Object.keys(TRAVEL_GUIDE).find(r=>view.slice(7)===r||view.slice(7).startsWith(r+"-"))
+          if(!regionId)return<div style={{padding:40,textAlign:"center",color:C.muted}}>Not found.</div>
+          const rest=view.slice(7+regionId.length+1)
+          return rest
+            ? <TravelCityPage regionId={regionId} cityId={rest} setView={setView}/>
+            : <TravelRegionPage regionId={regionId} setView={setView}/>
+        })()
       ):isCat?(
         <CategoryPage catId={view} setView={setView} lang={lang} t={t} cache={cache} setCache={setCache} user={user} reviews={reviews} setReviews={setReviews}/>
       ):(
@@ -5311,6 +5439,55 @@ function AppsPage(){
 }
 
 // ── Connect / Dating data ─────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// TRAVEL GUIDE — expandable three-level structure:
+//   region → cities → places (bars/restaurants/clubs/attractions)
+//
+// TO ADD CONTENT: copy an existing block and edit it. To add a city to a
+// region, copy a city object. To add a place, copy a place object. Photos
+// can be Unsplash URLs or left as "" (a coloured placeholder shows instead).
+// ═══════════════════════════════════════════════════════════════════
+const TRAVEL_GUIDE = {
+  "black-sea": {
+    name: "Black Sea Coast",
+    tagline: "Bulgaria's beaches, resorts and seaside towns",
+    hero: "https://images.unsplash.com/photo-1567021208000-e2b69c42c910?w=1200&q=80",
+    intro: "Bulgaria's Black Sea coast stretches from Romania to Turkey, with sandy beaches, lively resorts and ancient seaside towns. Pick a destination below.",
+    cities: [
+      {
+        id: "sunny-beach",
+        name: "Sunny Beach",
+        tagline: "Bulgaria's biggest party resort",
+        hero: "https://images.unsplash.com/photo-1567021208000-e2b69c42c910?w=1200&q=80",
+        intro: "Sunny Beach (Slanchev Bryag) is Bulgaria's largest and liveliest seaside resort — 8 km of sandy beach, endless bars and clubs, and budget-friendly nightlife. Busiest June–September.",
+        places: [
+          // ── PLACEHOLDERS — replace with real venues you know ──
+          { name: "Example Beach Bar", type: "bar", desc: "Short description of this bar — vibe, what it's known for.", img: "", area: "Beachfront" },
+          { name: "Example Restaurant", type: "restaurant", desc: "Cuisine, price range, why it's worth visiting.", img: "", area: "Center" },
+          { name: "Example Nightclub", type: "club", desc: "Music style, crowd, opening hours.", img: "", area: "Cacao Beach" },
+          { name: "Example Attraction", type: "attraction", desc: "What to see or do here.", img: "", area: "" },
+        ],
+      },
+      // ── ADD MORE CITIES HERE (copy the block above) ──
+      // { id:"nessebar", name:"Nessebar", tagline:"...", hero:"", intro:"...", places:[...] },
+      // { id:"varna", name:"Varna", tagline:"...", hero:"", intro:"...", places:[...] },
+    ],
+  },
+  // ── ADD MORE REGIONS HERE (copy the whole "black-sea" block) ──
+  // "sofia-region": { name:"Sofia & Around", ... },
+  // "rila-pirin": { name:"Rila & Pirin Mountains", ... },
+}
+
+// Place-type styling (icon + colour). Add new types here if you need them.
+const PLACE_TYPES = {
+  bar:        { label: "Bar",         color: "#b45309", bg: "#fef3c7" },
+  restaurant: { label: "Restaurant",  color: "#b91c1c", bg: "#fee2e2" },
+  club:       { label: "Club",        color: "#7c3aed", bg: "#f3e8ff" },
+  attraction: { label: "Attraction",  color: "#0891b2", bg: "#cffafe" },
+  hotel:      { label: "Hotel",       color: "#1d4ed8", bg: "#dbeafe" },
+  beach:      { label: "Beach",       color: "#0d9488", bg: "#ccfbf1" },
+}
+
 const INIT_PROFILES = [
   {id:1,name:"BGexpats",age:0,from:"Team",city:"sofia",flag:"🇧🇬",bio:"Official BGexpats account. We connect expats and Bulgarians across Bulgaria. Create your profile to be one of the first members!",lookingFor:"friends",languages:["English","Bulgarian"],interests:["travel","community","culture"],gender:"X",av:"BG",verified:true,online:true,team:true},
 ]
