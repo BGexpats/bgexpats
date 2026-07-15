@@ -120,7 +120,8 @@ export async function uploadAvatar(userId, file) {
 export async function listProfiles() {
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, name, av, avatar_url, bio, city, interests, languages, looking_for, created_at')
+    .select('id, name, av, avatar_url, bio, city, interests, languages, looking_for, created_at, in_connect')
+    .eq('in_connect', true)
     .order('created_at', { ascending: false })
   return { data, error }
 }

@@ -3818,14 +3818,17 @@ const PROFILE_CITIES=["Sofia","Plovdiv","Varna","Burgas","Bansko","Ruse","Stara 
 const PROFILE_LANGS=["English","Bulgarian","Russian","German","French","Spanish","Dutch","Turkish","Ukrainian","Italian","Polish","Romanian"]
 
 function AccountPage({user,setUser,setView}){
+  const [name,setName]=useState("")
   const [bio,setBio]=useState("")
   const [city,setCity]=useState("")
   const [lookingFor,setLookingFor]=useState("")
   const [interests,setInterests]=useState([])
   const [languages,setLanguages]=useState([])
   const [avatarUrl,setAvatarUrl]=useState("")
+  const [inConnect,setInConnect]=useState(false)
   const [loading,setLoading]=useState(true)
   const [saving,setSaving]=useState(false)
+  const [joining,setJoining]=useState(false)
   const [uploading,setUploading]=useState(false)
   const [msg,setMsg]=useState("")
   const [err,setErr]=useState("")
@@ -3845,12 +3848,14 @@ function AccountPage({user,setUser,setView}){
       const {data}=await sbGetProfile(user.id)
       if(cancelled)return
       if(data){
+        setName(data.name||user.name||"")
         setBio(data.bio||"")
         setCity(data.city||"")
         setLookingFor(data.looking_for||"")
         setInterests(data.interests||[])
         setLanguages(data.languages||[])
         setAvatarUrl(data.avatar_url||"")
+        setInConnect(!!data.in_connect)
       }
       setLoading(false)
     })()
@@ -3861,8 +3866,11 @@ function AccountPage({user,setUser,setView}){
     setList(list.includes(item)?list.filter(i=>i!==item):[...list,item])
 
   const save=async()=>{
-    setErr("");setMsg("");setSaving(true)
+    setErr("");setMsg("")
+    if(!name.trim()){setErr("Please enter a name.");return}
+    setSaving(true)
     const {error}=await sbUpdateProfile(user.id,{
+      name:name.trim(),
       bio:bio.trim()||null,
       city:city||null,
       looking_for:lookingFor||null,
@@ -3871,8 +3879,26 @@ function AccountPage({user,setUser,setView}){
     })
     setSaving(false)
     if(error){setErr("Could not save your profile. Please try again.");return}
+    setUser(u=>u?{...u,name:name.trim()}:u)
     setMsg("Profile saved.")
     setTimeout(()=>setMsg(""),3000)
+  }
+
+  // Join or leave Meet & Connect (the opt-in that makes a profile visible to others).
+  const toggleConnect=async()=>{
+    setErr("");setMsg("")
+    // Require a bit of profile before joining, so listings aren't empty.
+    if(!inConnect&&!bio.trim()){
+      setErr("Add a short bio first, then you can join Meet & Connect.");return
+    }
+    setJoining(true)
+    const next=!inConnect
+    const {error}=await sbUpdateProfile(user.id,{in_connect:next})
+    setJoining(false)
+    if(error){setErr("Could not update. Please try again.");return}
+    setInConnect(next)
+    setMsg(next?"You're now visible in Meet & Connect.":"You've left Meet & Connect — your profile is hidden there.")
+    setTimeout(()=>setMsg(""),3500)
   }
 
   const pickFile=()=>fileRef.current&&fileRef.current.click()
@@ -3935,7 +3961,7 @@ function AccountPage({user,setUser,setView}){
                   )}
                 </div>
                 <div style={{minWidth:0}}>
-                  <div style={{fontSize:18,fontWeight:700,color:C.text,marginBottom:2}}>{user.name}</div>
+                  <div style={{fontSize:18,fontWeight:700,color:C.text,marginBottom:2}}>{name||user.name}</div>
                   <div style={{fontSize:13,color:C.muted,marginBottom:8,overflow:"hidden",textOverflow:"ellipsis"}}>{user.email}</div>
                   <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={onFile} style={{display:"none"}}/>
                   <button onClick={pickFile} disabled={uploading}
@@ -3943,6 +3969,15 @@ function AccountPage({user,setUser,setView}){
                     {uploading?"Uploading…":(avatarUrl?"Change photo":"Add photo")}
                   </button>
                 </div>
+              </div>
+
+              {/* Name */}
+              <div style={{marginBottom:16}}>
+                <label style={{fontSize:12,fontWeight:600,color:C.muted,display:"block",marginBottom:5}}>NAME OR NICKNAME</label>
+                <input value={name} onChange={e=>setName(e.target.value.slice(0,40))}
+                  placeholder="How you'd like to appear"
+                  style={inputStyle}/>
+                <div style={{fontSize:11,color:C.muted,marginTop:3}}>This is shown across BGexpats, including in Meet & Connect if you join.</div>
               </div>
 
               {/* About you */}
@@ -4007,6 +4042,27 @@ function AccountPage({user,setUser,setView}){
                 style={{width:"100%",background:saving?"#9bb8a8":C.primary,border:"none",color:"#fff",padding:"12px",borderRadius:10,cursor:saving?"default":"pointer",fontSize:15,fontWeight:700}}>
                 {saving?"Saving…":"Save profile"}
               </button>
+
+              {/* Meet & Connect opt-in — separate from having a BGexpats account */}
+              <div style={{marginTop:22,paddingTop:20,borderTop:`1px solid ${C.border}`}}>
+                <div style={{display:"flex",alignItems:"flex-start",gap:12,background:inConnect?"#f0fff4":"#f9f6ff",border:`1px solid ${inConnect?"#bce8cd":"#e9d5ff"}`,borderRadius:12,padding:"16px"}}>
+                  <div style={{flexShrink:0,width:38,height:38,borderRadius:10,background:inConnect?"#dcfce7":"#f3e8ff",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <Icon2c d={CONNECT_ICON_D} accent={inConnect?"#16a34a":"#9333ea"} size={20}/>
+                  </div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontSize:15,fontWeight:700,color:C.text,marginBottom:3}}>Meet &amp; Connect</div>
+                    <p style={{fontSize:13,color:C.muted,margin:"0 0 12px",lineHeight:1.6}}>
+                      {inConnect
+                        ? "Your profile is visible to other members in Meet & Connect. You can leave anytime."
+                        : "Optional — join to appear in Meet & Connect so other members can find you. Your BGexpats account works with or without this."}
+                    </p>
+                    <button onClick={toggleConnect} disabled={joining}
+                      style={{background:inConnect?"transparent":"#9333ea",border:inConnect?`1.5px solid ${C.border}`:"none",color:inConnect?C.muted:"#fff",padding:"9px 18px",borderRadius:9,cursor:joining?"default":"pointer",fontSize:14,fontWeight:700}}>
+                      {joining?"…":(inConnect?"Leave Meet & Connect":"Join Meet & Connect →")}
+                    </button>
+                  </div>
+                </div>
+              </div>
 
               <p style={{fontSize:11,color:C.muted,textAlign:"center",margin:"14px 0 0",lineHeight:1.5}}>
                 Only signed-in members can see your profile. Never share your home address, phone number or financial details.
