@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, Fragment } from "react"
 import heroImg1 from "./assets/hero-rila-lake.jpg"
 import heroImg2 from "./assets/hero-sunny-beach.jpg"
 import heroImg3 from "./assets/hero-ivan-vazov.jpg"
@@ -1387,7 +1387,7 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
     str.split(/(\*\*[^*]+\*\*)/g).map((chunk,k)=>
       chunk.startsWith("**")&&chunk.endsWith("**")
         ?<strong key={k} style={{fontWeight:700,color:C.text}}>{chunk.slice(2,-2)}</strong>
-        :<React.Fragment key={k}>{chunk}</React.Fragment>
+        :<Fragment key={k}>{chunk}</Fragment>
     )
 
   const formatBody=(text)=>{
