@@ -585,7 +585,7 @@ All legally resident children (EU and non-EU) have the right to free public educ
     labels:{en:{label:"Housing & Renting",sub:"Find your home in Bulgaria"},fr:{label:"Logement & Location",sub:"Trouvez votre logement en Bulgarie"},es:{label:"Vivienda y Alquiler",sub:"Encuentra tu hogar en Bulgaria"},de:{label:"Wohnen & Mieten",sub:"Dein Zuhause in Bulgarien finden"},nl:{label:"Wonen & Huren",sub:"Vind uw thuis in Bulgarije"},ru:{label:"Жильё и аренда",sub:"Квартиры, покупка, коммунальные"},uk:{label:"Житло та оренда",sub:"Квартири, купівля, комунальні"},tr:{label:"Konut ve Kiralama",sub:"Daireler, satın alma, faturalar"},bg:{label:"Жилище и наем",sub:"Апартаменти, покупка, комунални"}},
     articles:[
       {titles:{en:"How to rent an apartment as a foreigner",fr:"Comment louer un appartement en tant qu'étranger",es:"Cómo alquilar un apartamento como extranjero",de:"Als Ausländer eine Wohnung mieten",nl:"Een appartement huren als buitenlander"},
-       body:`Renting in Bulgaria is still affordable by European standards — but prices have risen since 2022 and again after euro adoption in January 2026.\n\n## Typical prices (2026)\n\nTap any city below for a neighbourhood guide, top places and activities.\n\n**[[travel-sofia|Sofia]] — the capital (most expensive)**\n• Studio/1-bed center: €500–850/month\n• Studio/1-bed suburbs: €350–550/month\n• 2-bed center: €700–1,200/month\n• 2-bed suburbs: €500–750/month\n\n**[[travel-plovdiv|Plovdiv]] — 25–35% cheaper than Sofia**\n• Studio/1-bed: €300–500/month\n• 2-bed: €400–650/month\n\n**[[travel-varna|Varna]] — Black Sea city (higher in summer)**\n• Studio/1-bed: €380–600/month\n• 2-bed: €500–800/month\n\n**[[travel-burgas|Burgas]] — more affordable Black Sea base**\n• Studio/1-bed: €280–450/month\n• 2-bed: €380–600/month\n\n**[[travel-bansko|Bansko]] — mountain resort**\n• Studio/1-bed: €280–500/month\n• Higher in ski season (Dec–Mar), lower in spring/autumn\n\n---\n\n## Where to find apartments\n• imoti.net — main property portal\n• address.bg — another large portal\n• Facebook: "Apartments for rent Sofia English"\n• Real estate agents (charge 1 month rent fee)\n\n## Rental contract\n• Always in writing, in both Bulgarian and English\n• Standard deposit: 1–2 months rent\n• Notice period: usually 1 month\n\n## Utilities\nNOT included in rent. Budget €60–200/month extra (higher in winter for heating).\n\n💡 Best Sofia neighbourhoods for expats: Lozenets, Iztok, Doctor's Garden, Mladost, Oborishte.`},
+       body:`Renting in Bulgaria is still affordable by European standards — but prices have risen since 2022 and again after euro adoption in January 2026.\n\n## Typical prices (2026)\n\nTap any city below for a neighbourhood guide, top places and activities.\n\n**[[travel-sofia|Sofia]] — the capital (most expensive)**\n• Studio/1-bed center: €500–850/month\n• Studio/1-bed suburbs: €350–550/month\n• 2-bed center: €700–1,200/month\n• 2-bed suburbs: €500–750/month\n\n**[[travel-plovdiv|Plovdiv]] — 25–35% cheaper than Sofia**\n• Studio/1-bed: €300–500/month\n• 2-bed: €400–650/month\n\n**[[travel-varna|Varna]] — Black Sea city (higher in summer)**\n• Studio/1-bed: €380–600/month\n• 2-bed: €500–800/month\n\n**[[travel-burgas|Burgas]] — more affordable Black Sea base**\n• Studio/1-bed: €280–450/month\n• 2-bed: €380–600/month\n\n**[[travel-bansko|Bansko]] — mountain resort**\n• Studio/1-bed: €280–500/month\n• Higher in ski season (Dec–Mar), lower in spring/autumn\n\n---\n\n## Where to find apartments\n• [[https://imoti.net|imoti.net]] — main property portal\n• [[https://address.bg|address.bg]] — another large portal\n• Facebook: "Apartments for rent Sofia English"\n• [[agents|Trusted real estate agents]] (charge 1 month rent fee)\n\n## Rental contract\n• Always in writing, in both Bulgarian and English\n• Standard deposit: 1–2 months rent\n• Notice period: usually 1 month\n\n## Utilities\nNOT included in rent. Budget €60–200/month extra (higher in winter for heating).\n\n💡 Best Sofia neighbourhoods for expats: Lozenets, Iztok, Doctor's Garden, Mladost, Oborishte.`},
     ,
       {titles:{en:"Buying property in Bulgaria \u2014 the complete guide",fr:"Acheter un bien immobilier en Bulgarie",es:"Comprar una propiedad en Bulgaria",de:"Immobilienkauf in Bulgarien",nl:"Onroerend goed kopen in Bulgarije"},
        source:"Bulgarian Property Registry",sourceUrl:"https://www.registryagency.bg",readTime:"7 min read",body:`Bulgaria offers some of the most affordable property in the EU — but the buying process and legal framework differ significantly from Western Europe.
@@ -600,10 +600,11 @@ All legally resident children (EU and non-EU) have the right to free public educ
 
 ## Where to search
 
-• **imot.net** — largest portal, most listings
-• **address.bg** — quality-verified listings, better for Sofia
+• [[https://imoti.net|imoti.net]] — largest portal, most listings
+• [[https://address.bg|address.bg]] — quality-verified listings, better for Sofia
 • **imotbg.com** — additional listings
 • **Direct from builders (ново строителство)** — for new builds
+• [[agents|Trusted real estate agencies]] — vetted agencies recommended by the BGexpats community
 
 Prices range enormously: €500/m² (small towns) to €2,500/m² (prime Sofia/Varna).
 
@@ -1444,6 +1445,11 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
         return<strong key={k} style={{fontWeight:700,color:C.text}}>{chunk.slice(2,-2)}</strong>
       if(chunk.startsWith("[[")&&chunk.endsWith("]]")){
         const[target,label]=chunk.slice(2,-2).split("|")
+        // External URL → open in new tab; internal view → navigate in-app
+        if(target.startsWith("http")){
+          return<a key={k} href={target} target="_blank" rel="noopener noreferrer"
+            style={{color:C.primary,fontWeight:700,textDecoration:"underline",fontFamily:"inherit"}}>{label||target}</a>
+        }
         return<button key={k} onClick={()=>setView(target)} style={{background:"none",border:"none",padding:0,color:C.primary,fontWeight:700,cursor:"pointer",textDecoration:"underline",fontSize:"inherit",fontFamily:"inherit"}}>{label||target}</button>
       }
       return<Fragment key={k}>{chunk}</Fragment>
@@ -4214,6 +4220,179 @@ function TravelCityPage({regionId,cityId,setView}){
   )
 }
 
+// ═══════════════════════════════════════════════════════════════════
+// TRUSTED REAL ESTATE AGENTS DIRECTORY
+// To add an agency: copy one of the objects below and fill in the fields.
+// logo: a URL to their logo image, or "" to show initials instead.
+// cities: which city filter buttons this agency appears under.
+// ═══════════════════════════════════════════════════════════════════
+const AGENTS = [
+  {
+    id: 1,
+    name: "Bulgarian Properties",
+    logo: "",
+    initials: "BP",
+    color: "#1e5e3f",
+    cities: ["Sofia","Plovdiv","Varna","Burgas","Bansko","All Bulgaria"],
+    desc: "One of Bulgaria's largest and most established agencies. Offices across the country. English-speaking staff. Specialists in both rentals and sales for expats.",
+    phone: "+359 2 911 50",
+    email: "info@bulgarianproperties.com",
+    website: "https://www.bulgarianproperties.com",
+    services: ["Rentals","Sales","New builds","Property management"],
+  },
+  {
+    id: 2,
+    name: "Address Real Estate",
+    logo: "",
+    initials: "AR",
+    color: "#1d4ed8",
+    cities: ["Sofia","Plovdiv","Varna"],
+    desc: "Premium quality-verified listings. Strong focus on Sofia's expat-popular neighbourhoods — Lozenets, Iztok, Oborishte. Known for vetted, accurate listings.",
+    phone: "",
+    email: "",
+    website: "https://www.address.bg",
+    services: ["Rentals","Sales"],
+  },
+  // ── ADD YOUR AGENCIES BELOW ──────────────────────────────────────
+  // {
+  //   id: 3,
+  //   name: "Your Agency Name",
+  //   logo: "https://yoursite.com/logo.png",  // or "" for initials
+  //   initials: "YA",
+  //   color: "#7c3aed",
+  //   cities: ["Sofia"],   // must match city filter options exactly
+  //   desc: "A short description of the agency and what makes them trustworthy.",
+  //   phone: "+359 ...",
+  //   email: "info@youragency.com",
+  //   website: "https://youragency.com",
+  //   services: ["Rentals","Sales"],
+  // },
+]
+
+const AGENT_CITIES = ["All Bulgaria","Sofia","Plovdiv","Varna","Burgas","Bansko","Other"]
+
+function AgentsPage({setView}){
+  const [city,setCity]=useState("All Bulgaria")
+  const [isMobile,setIsMobile]=useState(typeof window!=="undefined"&&window.innerWidth<=768)
+  useEffect(()=>{
+    const r=()=>setIsMobile(window.innerWidth<=768)
+    window.addEventListener("resize",r);return()=>window.removeEventListener("resize",r)
+  },[])
+
+  const visible=city==="All Bulgaria"
+    ? AGENTS
+    : AGENTS.filter(a=>a.cities.includes(city)||a.cities.includes("All Bulgaria"))
+
+  return(
+    <div style={{minHeight:"100vh",background:C.page}}>
+      {/* Hero */}
+      <div style={{background:`linear-gradient(135deg,${C.primary},#2a7a52)`,padding:isMobile?"28px 16px 44px":"36px 20px 52px"}}>
+        <div style={{maxWidth:1000,margin:"0 auto"}}>
+          <button onClick={()=>setView("housing")} style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.3)",color:"rgba(255,255,255,0.9)",padding:"5px 12px",borderRadius:20,cursor:"pointer",fontSize:12,marginBottom:16}}>← Housing &amp; Renting</button>
+          <h1 className="serif" style={{color:"#fff",fontSize:"clamp(24px,4.5vw,38px)",fontWeight:400,margin:"0 0 8px"}}>Trusted Real Estate Agents</h1>
+          <p style={{color:"rgba(255,255,255,0.8)",fontSize:isMobile?13:15,margin:"0 0 6px",fontWeight:300}}>Vetted agencies recommended by the BGexpats community</p>
+          <p style={{color:"rgba(255,255,255,0.65)",fontSize:12,margin:0}}>Always verify credentials independently before signing contracts or transferring money.</p>
+        </div>
+      </div>
+
+      <div style={{maxWidth:1000,margin:isMobile?"-24px auto 40px":"-28px auto 52px",padding:isMobile?"0 14px":"0 20px"}}>
+        {/* City filter */}
+        <div style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:14,padding:"14px 16px",marginBottom:18,boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
+          <div style={{fontSize:11,fontWeight:600,color:C.muted,letterSpacing:"0.05em",marginBottom:8}}>FILTER BY CITY</div>
+          <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+            {AGENT_CITIES.map(c=>(
+              <button key={c} onClick={()=>setCity(c)}
+                style={{padding:"6px 14px",borderRadius:16,border:`1.5px solid ${city===c?C.primary:C.border}`,background:city===c?C.primaryLight:"transparent",color:city===c?C.primary:C.muted,cursor:"pointer",fontSize:13,fontWeight:city===c?700:400}}>
+                {c}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Agent cards */}
+        {visible.length===0?(
+          <div style={{background:C.surface,border:`1px dashed ${C.border}`,borderRadius:14,padding:"32px 20px",textAlign:"center"}}>
+            <div style={{fontSize:15,fontWeight:600,color:C.text,marginBottom:6}}>No agencies listed for {city} yet</div>
+            <p style={{fontSize:13,color:C.muted,margin:0}}>Know a trustworthy agent in this area? Contact us to recommend them.</p>
+          </div>
+        ):(
+          <div style={{display:"grid",gridTemplateColumns:isMobile?"1fr":"repeat(auto-fill,minmax(420px,1fr))",gap:14}}>
+            {visible.map(a=>(
+              <div key={a.id} style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:16,overflow:"hidden",boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
+                {/* Card header */}
+                <div style={{background:`linear-gradient(135deg,${a.color}18,${a.color}08)`,borderBottom:`1px solid ${C.border}`,padding:"16px 18px",display:"flex",alignItems:"center",gap:14}}>
+                  {a.logo?(
+                    <img src={a.logo} alt={a.name} style={{width:52,height:52,borderRadius:10,objectFit:"contain",background:"#fff",padding:4,border:`1px solid ${C.border}`}}/>
+                  ):(
+                    <div style={{width:52,height:52,borderRadius:10,background:a.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,fontWeight:800,color:"#fff",flexShrink:0}}>
+                      {a.initials}
+                    </div>
+                  )}
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontSize:17,fontWeight:700,color:C.text,marginBottom:3}}>{a.name}</div>
+                    <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
+                      {a.cities.slice(0,3).map(c=>(
+                        <span key={c} style={{fontSize:11,background:`${a.color}18`,color:a.color,padding:"2px 8px",borderRadius:10,fontWeight:600}}>{c}</span>
+                      ))}
+                      {a.cities.length>3&&<span style={{fontSize:11,color:C.muted}}>+{a.cities.length-3} more</span>}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card body */}
+                <div style={{padding:"14px 18px"}}>
+                  <p style={{fontSize:13,color:C.text,lineHeight:1.6,margin:"0 0 12px"}}>{a.desc}</p>
+
+                  {/* Services */}
+                  <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:14}}>
+                    {a.services.map(s=>(
+                      <span key={s} style={{fontSize:11,background:C.page,border:`1px solid ${C.border}`,borderRadius:8,padding:"3px 8px",color:C.muted}}>{s}</span>
+                    ))}
+                  </div>
+
+                  {/* Contact */}
+                  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+                    {a.website&&(
+                      <a href={a.website} target="_blank" rel="noopener noreferrer"
+                        style={{flex:1,minWidth:120,background:a.color,color:"#fff",borderRadius:9,padding:"9px 14px",fontSize:13,fontWeight:700,textDecoration:"none",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+                        🌐 Visit website
+                      </a>
+                    )}
+                    {a.phone&&(
+                      <a href={`tel:${a.phone}`}
+                        style={{flex:1,minWidth:120,background:C.page,border:`1.5px solid ${C.border}`,color:C.text,borderRadius:9,padding:"9px 14px",fontSize:13,fontWeight:600,textDecoration:"none",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+                        📞 {a.phone}
+                      </a>
+                    )}
+                    {a.email&&(
+                      <a href={`mailto:${a.email}`}
+                        style={{flex:1,minWidth:120,background:C.page,border:`1.5px solid ${C.border}`,color:C.text,borderRadius:9,padding:"9px 14px",fontSize:13,fontWeight:600,textDecoration:"none",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+                        ✉️ Email
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* CTA for agencies to get listed */}
+        <div style={{marginTop:24,background:C.primaryLight,border:`1px solid #bcd4c6`,borderRadius:14,padding:"18px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
+          <div>
+            <div style={{fontSize:14,fontWeight:700,color:C.primary,marginBottom:3}}>Are you a real estate agent?</div>
+            <div style={{fontSize:13,color:C.muted}}>Get listed here and reach expats looking for property in Bulgaria.</div>
+          </div>
+          <a href="mailto:bgexpats.info@gmail.com?subject=Agency listing request — BGexpats&body=Hi BGexpats team,%0A%0AAgency name:%0ACity/cities covered:%0AWebsite:%0APhone:%0AEmail:%0AShort description:%0A%0AThanks!"
+            style={{background:C.primary,color:"#fff",padding:"10px 20px",borderRadius:10,fontSize:14,fontWeight:700,textDecoration:"none",flexShrink:0}}>
+            Request listing →
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function App(){
   const [view,setViewState]=useState(()=>{
     // On first load, honour a hash like #map so refresh/shared links work.
@@ -4506,6 +4685,8 @@ export default function App(){
         <AnalyticsPage liveEvents={liveEvents} user={user}/>
       ):view==="account"?(
         <AccountPage user={user} setUser={setUser} setView={setView}/>
+      ):view==="agents"?(
+        <AgentsPage setView={setView}/>
       ):view==="map"?(
         <MapPage user={user} setView={setView} subscription={subscription} openCheckout={openCheckout}/>
       ):view==="tools"?(
