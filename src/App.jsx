@@ -4446,7 +4446,7 @@ function AgentsPage({setView}){
             <div style={{fontSize:14,fontWeight:700,color:C.primary,marginBottom:3}}>Are you a real estate agent?</div>
             <div style={{fontSize:13,color:C.muted}}>Get listed here and reach expats looking for property in Bulgaria.</div>
           </div>
-          <a href="mailto:bgexpats.info@gmail.com?subject=Agency listing request — BGexpats&body=Hi BGexpats team,%0A%0AAgency name:%0ACity/cities covered:%0AWebsite:%0APhone:%0AEmail:%0AShort description:%0A%0AThanks!"
+          <a href="mailto:partners@bgexpats.com?subject=Agency listing request — BGexpats&body=Hi BGexpats team,%0A%0AAgency name:%0ACity/cities covered:%0AWebsite:%0APhone:%0AEmail:%0AShort description:%0A%0AThanks!"
             style={{background:C.primary,color:"#fff",padding:"10px 20px",borderRadius:10,fontSize:14,fontWeight:700,textDecoration:"none",flexShrink:0}}>
             Request listing →
           </a>
