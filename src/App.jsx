@@ -4265,6 +4265,7 @@ const AGENTS = [
     email: "indraimoti@abv.bg",
     website: "https://www.alo.bg/users/indrarealestates",
     services: ["Rentals","Sales","Leasing","Property management"],
+    languages: ["English","Spanish","Russian"],
   },
   // ── ADD YOUR AGENCIES BELOW ──────────────────────────────────────
   // {
@@ -4359,11 +4360,21 @@ function AgentsPage({setView}){
                   ))}
 
                   {/* Services */}
-                  <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:14}}>
+                  <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:a.languages?8:14}}>
                     {a.services.map(s=>(
                       <span key={s} style={{fontSize:11,background:C.page,border:`1px solid ${C.border}`,borderRadius:8,padding:"3px 8px",color:C.muted}}>{s}</span>
                     ))}
                   </div>
+
+                  {/* Languages */}
+                  {a.languages&&(
+                    <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:14,alignItems:"center"}}>
+                      <span style={{fontSize:11,color:C.muted,marginRight:2}}>🗣️</span>
+                      {a.languages.map(l=>(
+                        <span key={l} style={{fontSize:11,background:"#f0f6ff",border:"1px solid #bfdbfe",borderRadius:8,padding:"3px 8px",color:"#1d4ed8",fontWeight:600}}>{l}</span>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Contact */}
                   <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
@@ -4382,7 +4393,7 @@ function AgentsPage({setView}){
                     {a.email&&(
                       <a href={`mailto:${a.email}`}
                         style={{flex:1,minWidth:120,background:C.page,border:`1.5px solid ${C.border}`,color:C.text,borderRadius:9,padding:"9px 14px",fontSize:13,fontWeight:600,textDecoration:"none",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
-                        ✉️ Email
+                        ✉️ {a.email}
                       </a>
                     )}
                   </div>
