@@ -1093,8 +1093,9 @@ function Nav({view,setView,lang,t,user,setUser,subscription,openCheckout=()=>{}}
           <span className="bg-nav-wordmark" style={{color:"#fff",fontSize:16,fontWeight:700,letterSpacing:"-0.3px"}}>BGexpats</span>
           {subscription&&<span style={{background:"#f0c060",color:"#1a3a20",fontSize:10,padding:"2px 8px",borderRadius:10,fontWeight:700,marginLeft:4}}>{subscription.plan.toUpperCase()}</span>}
         </button>
-        <div className="nav-links" style={{display:"flex",alignItems:"center",gap:2,overflowX:"auto",WebkitOverflowScrolling:"touch",scrollbarWidth:"none",msOverflowStyle:"none",minWidth:0,flex:"1 1 auto"}}>
-
+        {/* Dropdowns live OUTSIDE nav-links (which has overflow:auto) so their
+            panels aren't clipped. Same fix as the user menu. */}
+        <div style={{display:"flex",alignItems:"center",gap:2,flexShrink:0}}>
           {/* ── Explore dropdown ───────────────────── */}
           <NavDropdown
             label="Explore"
@@ -1108,7 +1109,6 @@ function Nav({view,setView,lang,t,user,setUser,subscription,openCheckout=()=>{}}
               ...(user?[{label:"Deadlines",          view:"tracker",   d:"M4 5h16v15H4V5zm0 4h16M8 3v4m8-4v4"}]:[]),
             ]}
           />
-
           {/* ── Community dropdown ─────────────────── */}
           <NavDropdown
             label="Community"
@@ -1118,13 +1118,14 @@ function Nav({view,setView,lang,t,user,setUser,subscription,openCheckout=()=>{}}
               {label:clean(t.nav?.connect)||"Connect",     view:"connect",   d:"M12 20.5s-7-4.3-9.3-8.7C1.4 8.7 2.8 5.5 6 5.5c1.9 0 3.2 1.2 6 3.7 2.8-2.5 4.1-3.7 6-3.7 3.2 0 4.6 3.2 3.3 6.3-2.3 4.4-9.3 8.7-9.3 8.7z"},
             ]}
           />
+        </div>
 
+        <div className="nav-links" style={{display:"flex",alignItems:"center",gap:2,minWidth:0,flex:"0 0 auto"}}>
           {/* ── AI — always standalone + highlighted ── */}
           <button onClick={()=>setView("chat")} style={{display:"flex",alignItems:"center",gap:6,background:C.accent,border:"none",color:"#fff",padding:"9px 16px",borderRadius:10,cursor:"pointer",fontSize:13,fontWeight:700,flexShrink:0,marginLeft:6}}>
             <NavIcon d="M12 2l1.8 4.6L18 8l-4.2 1.9L12 15l-1.8-5.1L6 8l4.2-1.4z" filled accent="#fff"/>
             {aiLabel[lang]||"AI"}
           </button>
-
           {user&&!subscription&&(
             <button onClick={()=>openCheckout("basic")} style={{...navBtnStyle(false,true),padding:"7px 12px",fontSize:12}}>
               <NavIcon d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" d2="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>
