@@ -1316,7 +1316,7 @@ function PhotoGallery({setView,lang}){
           <h2 style={{color:"#fff",fontSize:28,fontWeight:700,margin:"0 0 8px"}}>{titles[lang]}</h2>
           <p style={{color:"rgba(255,255,255,0.6)",fontSize:15,margin:0}}>{subs[lang]}</p>
         </div>
-        <div style={{position:"relative",borderRadius:18,overflow:"hidden",height:420,marginBottom:16,boxShadow:"0 20px 60px rgba(0,0,0,0.4)"}}>
+        <div className="bg-gallery-main" style={{position:"relative",borderRadius:18,overflow:"hidden",height:420,marginBottom:16,boxShadow:"0 20px 60px rgba(0,0,0,0.4)"}}>
           {photos.map((p,i)=>(
             <div key={i} style={{position:"absolute",inset:0,opacity:active===i?1:0,transition:"opacity 0.7s ease",zIndex:active===i?1:0}}>
               <div style={{position:"relative",width:"100%",height:"100%"}}>
@@ -1336,7 +1336,7 @@ function PhotoGallery({setView,lang}){
         </div>
         <div style={{display:"flex",gap:8,overflowX:"auto",paddingBottom:4}}>
           {photos.map((p,i)=>(
-            <button key={i} onClick={()=>setActive(i)} style={{flexShrink:0,width:90,height:60,borderRadius:10,overflow:"hidden",border:active===i?"3px solid #f0c060":"3px solid transparent",cursor:"pointer",padding:0,transition:"border 0.2s"}}>
+            <button key={i} onClick={()=>setActive(i)} className="bg-gallery-thumb" style={{flexShrink:0,width:90,height:60,borderRadius:10,overflow:"hidden",border:active===i?"3px solid #f0c060":"3px solid transparent",cursor:"pointer",padding:0,transition:"border 0.2s"}}>
               <div style={{position:"relative",width:"100%",height:"100%",background:["#1e5e3f","#1a3a6a","#6a3a1a","#0a3a5a","#3a1a5a","#5a1a1a"][i]}}>
                 <img src={p.src} alt={p.city} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}
                   onError={e=>{e.currentTarget.style.display="none"}}/>
@@ -1485,7 +1485,7 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
 
   return(
     <div style={{minHeight:"100vh",background:C.page}}>
-      <div style={{maxWidth:820,margin:"0 auto",padding:"32px 20px 60px"}}>
+      <div className="bg-article-wrap" style={{maxWidth:820,margin:"0 auto",padding:"32px 20px 60px"}}>
         <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:26}}>
           <div style={{width:46,height:46,borderRadius:13,background:cat.bg,display:"flex",alignItems:"center",justifyContent:"center"}}><Icon2c d={(COMMUNITY_ICON_MAP[cat.id]||{}).d} accent={(COMMUNITY_ICON_MAP[cat.id]||{}).accent} size={23}/></div>
           <div>
@@ -1603,7 +1603,7 @@ function ChatPage({lang,t}){
         <div style={{maxWidth:780,margin:"0 auto",display:"flex",flexDirection:"column",gap:12}}>
           {messages.map((m,i)=>(
             <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start"}}>
-              <div style={{maxWidth:"82%",background:m.role==="user"?C.primary:C.surface,color:m.role==="user"?"#fff":C.text,borderRadius:m.role==="user"?"16px 16px 4px 16px":"16px 16px 16px 4px",padding:"11px 15px",fontSize:14,border:m.role==="assistant"?`1px solid ${C.border}`:"none",boxShadow:m.role==="assistant"?"0 1px 3px rgba(0,0,0,0.04)":"none"}}>
+              <div className="bg-chat-bubble" style={{maxWidth:"82%",background:m.role==="user"?C.primary:C.surface,color:m.role==="user"?"#fff":C.text,borderRadius:m.role==="user"?"16px 16px 4px 16px":"16px 16px 16px 4px",padding:"11px 15px",fontSize:14,border:m.role==="assistant"?`1px solid ${C.border}`:"none",boxShadow:m.role==="assistant"?"0 1px 3px rgba(0,0,0,0.04)":"none"}}>
                 {fmt(m.content)}
               </div>
             </div>
@@ -2195,6 +2195,11 @@ function ToolGate({user,setView,children,name}){
 function CostCalcTool({user,setView,subscription}){
   const tier=(subscription&&subscription.plan)||"free"
   const isBasic=tier==="basic"||tier==="premium"
+  const [isMobile,setIsMobile]=useState(typeof window!=="undefined"&&window.innerWidth<=768)
+  useEffect(()=>{
+    const r=()=>setIsMobile(window.innerWidth<=768)
+    window.addEventListener("resize",r);return()=>window.removeEventListener("resize",r)
+  },[])
   const [mode,setMode]=useState("single") // "single" | "compare"
   const [city,setCity]=useState("sofia")
   const [city2,setCity2]=useState("plovdiv")
@@ -2281,7 +2286,7 @@ function CostCalcTool({user,setView,subscription}){
         /* Compare mode */
         <div>
           {/* City pickers */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr auto 1fr",gap:8,alignItems:"center",marginBottom:14}}>
+          <div style={{display:"grid",gridTemplateColumns:isMobile?"1fr":"1fr auto 1fr",gap:8,alignItems:"center",marginBottom:14}}>
             <select value={city} onChange={e=>setCity(e.target.value)} style={{border:`2px solid ${C.primary}`,borderRadius:10,padding:"9px 12px",fontSize:13,fontWeight:600,color:C.primary,background:C.primaryLight,outline:"none"}}>
               {cities.filter(([id])=>id!==city2).map(([id,cd])=><option key={id} value={id}>{cd.flag} {cd.name}</option>)}
             </select>
@@ -2291,7 +2296,8 @@ function CostCalcTool({user,setView,subscription}){
             </select>
           </div>
           {/* Side by side breakdown */}
-          <div style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:12,overflow:"hidden",marginBottom:14}}>
+          <div style={{overflowX:"auto",WebkitOverflowScrolling:"touch"}}>
+            <div style={{minWidth:isMobile?420:"auto",background:C.surface,border:`1px solid ${C.border}`,borderRadius:12,overflow:"hidden",marginBottom:14}}>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",background:C.page,padding:"8px 12px",fontSize:11,fontWeight:600,color:C.muted,textTransform:"uppercase",letterSpacing:"0.05em"}}>
               <span>Category</span><span style={{textAlign:"right",color:C.primary}}>{CITY_DATA[city]?.flag} {CITY_DATA[city]?.name}</span>
               <span style={{textAlign:"right",color:C.accent}}>{CITY_DATA[city2]?.flag} {CITY_DATA[city2]?.name}</span>
@@ -2319,9 +2325,10 @@ function CostCalcTool({user,setView,subscription}){
                 </span>
               </div>
             </div>
+            </div>
           </div>
           {/* Summary bars */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          <div style={{display:"grid",gridTemplateColumns:isMobile?"1fr":"1fr 1fr",gap:10}}>
             {[[city,total1,C.primary],[city2,total2,C.accent]].map(([cid,tot,col])=>(
               <div key={cid} style={{background:`${col}15`,border:`1.5px solid ${col}40`,borderRadius:12,padding:"14px",textAlign:"center"}}>
                 <div style={{marginBottom:4,display:"flex",justifyContent:"center"}}><Icon2c d={MAP_PIN_D} accent={col} size={20}/></div>
@@ -4380,6 +4387,36 @@ export default function App(){
         }
         @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
         @keyframes spin{to{transform:rotate(360deg)}}
+        /* ── Responsive utility classes ───────────────────────────── */
+        /* Two-column grid that stacks on mobile */
+        .rg-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        /* Three-column grid that stacks on mobile */
+        .rg-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+        /* Pricing grid — 3 cols on desktop, stacks on mobile */
+        .rg-pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+        /* Gallery thumbnails row */
+        .rg-thumbs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+        .rg-thumbs::-webkit-scrollbar{display:none}
+        /* Page padding that shrinks on mobile */
+        .rp{padding:52px 20px}
+        @media(max-width:768px){
+          .rg-2{grid-template-columns:1fr}
+          .rg-3{grid-template-columns:1fr}
+          .rg-pricing{grid-template-columns:1fr}
+          .rp{padding:28px 14px}
+          /* Discover gallery: shorter on phones */
+          .bg-gallery-main{height:220px !important}
+          .bg-gallery-thumb{width:64px !important;height:44px !important}
+          /* Cost calc compare grid stays 3-col but smaller text */
+          .rg-3-keep{font-size:11px}
+          /* Article padding on mobile */
+          .bg-article-wrap{padding:20px 14px 40px !important}
+          /* Chat bubbles full width on mobile */
+          .bg-chat-bubble{max-width:95% !important}
+        }
+        @media(max-width:480px){
+          .rg-pricing{grid-template-columns:1fr}
+        }
         @keyframes gradShift{0%,100%{opacity:1}50%{opacity:0.85}}
         @keyframes floatUp{0%{transform:translateY(20px);opacity:0}100%{transform:translateY(0);opacity:1}}
         @keyframes fadeIn{0%{opacity:0}100%{opacity:1}}
@@ -6347,6 +6384,11 @@ const AD_STATS = [
 function AdvertisePage({setView,lang}){
   const [sel,setSel]=useState("featured")
   const [billing,setBilling]=useState("monthly")
+  const [isMobile,setIsMobile]=useState(typeof window!=="undefined"&&window.innerWidth<=768)
+  useEffect(()=>{
+    const r=()=>setIsMobile(window.innerWidth<=768)
+    window.addEventListener("resize",r);return()=>window.removeEventListener("resize",r)
+  },[])
   const chosen=AD_TIERS.find(t=>t.id===sel)
   const chosenPrice=chosen?(billing==="yearly"?chosen.yearly:chosen.monthly):0
   const chosenUnit=billing==="yearly"?"/year":"/month"
