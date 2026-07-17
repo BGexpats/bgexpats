@@ -981,7 +981,7 @@ No customs duty on EU-origin vehicles. Process:
 • Total costs often exceed 35–40% of vehicle value
 • **Usually not worth it — buy locally instead**
 
-💡 **Tip:** For used cars on mobile.bg, always check the vehicle history at carvertical.com or carjam.bg before viewing. Request the VIN number from the seller first.,
+💡 **Tip:** For used cars on mobile.bg, always check the vehicle history at carvertical.com or carjam.bg before viewing. Request the VIN number from the seller first.`},
       {titles:{en:"Buying or importing a car in Bulgaria",fr:"Acheter ou importer une voiture en Bulgarie",es:"Comprar o importar un coche en Bulgaria",de:"Auto kaufen oder importieren in Bulgarien",nl:"Auto kopen of importeren in Bulgarije"},
        body:`Whether you're buying locally or bringing your car from abroad, here's everything you need to know.
 
@@ -1080,8 +1080,7 @@ No customs duty on EU-origin vehicles. Process:
 • Total costs often exceed 35–40% of vehicle value
 • **Usually not worth it — buy locally instead**
 
-💡 **Tip:** For used cars on mobile.bg, always check the vehicle history at carvertical.com or carjam.bg before viewing. Request the VIN number from the seller first.\`}
-`}]
+💡 **Tip:** For used cars on mobile.bg, always check the vehicle history at carvertical.com or carjam.bg before viewing. Request the VIN number from the seller first.`}]
   },
   {
     id:"business",icon:"💼",bg:"#fef3f3",
