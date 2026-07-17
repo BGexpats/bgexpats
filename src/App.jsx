@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, Fragment } from "react"
 import { signUp as sbSignUp, signIn as sbSignIn, signOut as sbSignOut, getCurrentUser as sbGetCurrentUser, resetPassword as sbResetPassword, getProfile as sbGetProfile, updateProfile as sbUpdateProfile, uploadAvatar as sbUploadAvatar, listProfiles as sbListProfiles } from "./supabase"
 import heroImg1 from "./assets/hero-rila-lake.jpg"
+import nessebar from "./assets/nessebar.jpg"
 import heroImg2 from "./assets/hero-sunny-beach.jpg"
 import heroImg3 from "./assets/hero-ivan-vazov.jpg"
 import connectHeroImg from "./assets/connect-hero.png"
@@ -1342,7 +1343,7 @@ function PhotoGallery({setView,lang}){
     {src:"https://images.unsplash.com/photo-1720959622076-a2a09dc4afbc?w=800&q=80",city:"Bansko",desc:"Pirin Mountains"},
     {src:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",city:"Black Sea",desc:"Sunny Beach"},
     {src:"https://images.unsplash.com/photo-1722447145262-3ff87e068c95?w=800&q=80",city:"Rila",desc:"Rila Monastery"},
-    {src:"https://images.unsplash.com/photo-1661274905127-2e61d00bb97c?w=800&q=80",city:"Nessebar",desc:"Ancient City on the Black Sea"},
+    {src:nessebar,city:"Nessebar",desc:"Ancient Windmill"},
   ]
   const titles={en:"Discover Bulgaria",fr:"Découvrez la Bulgarie",es:"Descubre Bulgaria",de:"Entdecke Bulgarien",nl:"Ontdek Bulgarije"}
   const subs={en:"From mountain peaks to ancient cities and sun-soaked beaches",fr:"Des sommets montagneux aux villes antiques et plages ensoleillées",es:"De picos montañosos a ciudades antiguas y playas soleadas",de:"Von Berggipfeln zu antiken Städten und sonnigen Stränden",nl:"Van bergtoppen tot oude steden en zonnige stranden"}
