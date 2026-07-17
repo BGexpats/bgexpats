@@ -1559,15 +1559,13 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
     if(cache[key])return
     setCache(prev=>({...prev,[key]:"__loading__"}))
     try{
-      const endpoint=(typeof window!=="undefined"&&window.location&&window.location.hostname==="localhost")
-        ? "https://api.anthropic.com/v1/messages"
-        : "/api/chat"
-      const res=await fetch(endpoint,{
-        method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:4000,messages:[{role:"user",content:`Translate this expat guide text to ${LANGS[lang].name}. Keep all formatting exactly: • bullet points, **bold** text, 💡 tip blocks, ## headers, | tables |, line breaks. Return only the translated text, nothing else:\n\n${body}`}]})
+      const res=await fetch("/api/translate",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({text:body,language:LANGS[lang].name})
       })
       const data=await res.json()
-      const translated=((data.content&&data.content[0]&&data.content[0].text)||'')||body
+      const translated=data.translated||body
       setCache(prev=>({...prev,[key]:translated}))
     }catch{
       setCache(prev=>({...prev,[key]:body}))
