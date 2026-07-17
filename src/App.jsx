@@ -1565,13 +1565,13 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
         body:JSON.stringify({text:body,language:LANGS[lang].name})
       })
       const data=await res.json()
-      const translated=data.translated||body
+      const translated=data?.translated||body
       setCache(prev=>({...prev,[key]:translated}))
-    }catch{
+    }catch(e){
+      console.error("Translation error:",e)
       setCache(prev=>({...prev,[key]:body}))
     }
   }
-
   // Auto-translate all articles in background when page opens or language changes
   useEffect(()=>{
     if(lang==="en")return
