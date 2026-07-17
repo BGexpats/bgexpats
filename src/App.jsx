@@ -1559,14 +1559,12 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
     if(cache[key])return
     setCache(prev=>({...prev,[key]:"__loading__"}))
     try{
-      // Use the Vercel proxy (/api/chat) in production so the API key stays
-      // server-side. Only localhost hits Anthropic directly (for dev testing).
       const endpoint=(typeof window!=="undefined"&&window.location&&window.location.hostname==="localhost")
         ? "https://api.anthropic.com/v1/messages"
         : "/api/chat"
       const res=await fetch(endpoint,{
         method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,messages:[{role:"user",content:`Translate this expat guide text to ${LANGS[lang].name}. Keep all formatting exactly: • bullet points, **bold** text, 💡 tip blocks, line breaks. Return only the translated text:\n\n${body}`}]})
+        body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:4000,messages:[{role:"user",content:`Translate this expat guide text to ${LANGS[lang].name}. Keep all formatting exactly: • bullet points, **bold** text, 💡 tip blocks, ## headers, | tables |, line breaks. Return only the translated text, nothing else:\n\n${body}`}]})
       })
       const data=await res.json()
       const translated=((data.content&&data.content[0]&&data.content[0].text)||'')||body
@@ -1581,6 +1579,11 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
     setOpen(next)
     if(next>=0&&lang!=="en")translateArticle(next,cat.articles[next].body)
   }
+
+  // Re-translate when language changes for the currently open article
+  useEffect(()=>{
+    if(open>=0&&lang!=="en")translateArticle(open,cat.articles[open].body)
+  },[lang])
 
   const renderInline=(str)=>
     // Split on both **bold** and [[view|label]] link markers.
@@ -1658,13 +1661,17 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
                 {isOpen&&(
                   <div style={{padding:"0 18px 18px",borderTop:`1px solid ${C.border}`,paddingTop:14}}>
                     {isLoading?(
-                      <div style={{display:"flex",alignItems:"center",gap:8,color:C.muted,fontSize:13,padding:"8px 0"}}>
+                      <div style={{display:"flex",alignItems:"center",gap:8,color:C.muted,fontSize:13,padding:"20px 0"}}>
                         <span style={{animation:"spin 1s linear infinite",display:"inline-block"}}>⟳</span> {t.translating}
                       </div>
                     ):bodyToShow?(
                       formatBody(bodyToShow)
                     ):(
-                      <>{formatBody(art.body)}</>
+                      lang!=="en"?(
+                        <div style={{display:"flex",alignItems:"center",gap:8,color:C.muted,fontSize:13,padding:"20px 0"}}>
+                          <span style={{animation:"spin 1s linear infinite",display:"inline-block"}}>⟳</span> {t.translating}
+                        </div>
+                      ):<>{formatBody(art.body)}</>
                     )}
                   </div>
                 )}
