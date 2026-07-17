@@ -5818,15 +5818,28 @@ const BG_APPS = [
 ]
 
 // ── Apps Directory Page ───────────────────────────────────────────
+const APP_CITIES=[
+  {id:"all",     label:"All Bulgaria",  icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>},
+  {id:"sofia",   label:"Sofia",         icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>},
+  {id:"plovdiv", label:"Plovdiv",        icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 00-8 8c0 5.4 8 13 8 13s8-7.6 8-13a8 8 0 00-8-8z"/></svg>},
+  {id:"varna",   label:"Varna",          icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12h20M2 12c0 5.5 4.5 10 10 10S22 17.5 22 12M2 12C2 6.5 6.5 2 12 2s10 4.5 10 10M8 12a8 8 0 008 0"/></svg>},
+  {id:"burgas",  label:"Burgas",         icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-3.07-8.63A2 2 0 0110.11 8h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L14.09 16a16 16 0 006.29 3.56l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>},
+  {id:"bansko",  label:"Bansko",         icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 20 12 4 21 20 3 20"/><line x1="3" y1="20" x2="21" y2="20"/></svg>},
+]
+
 function AppsPage(){
   const [cat,setCat]=useState("all")
+  const [city,setCity]=useState("all")
   const [search,setSearch]=useState("")
+
   const filtered=BG_APPS.filter(a=>{
     const matchCat=cat==="all"||a.cat===cat
+    const matchCity=city==="all"||a.cities.includes("all")||a.cities.includes(city)
     const matchSearch=!search||a.name.toLowerCase().includes(search.toLowerCase())||a.desc.toLowerCase().includes(search.toLowerCase())
-    return matchCat&&matchSearch
+    return matchCat&&matchCity&&matchSearch
   })
   const catObj=BG_APP_CATS.find(c=>c.id===cat)
+  const cityObj=APP_CITIES.find(c=>c.id===city)
 
   return(
     <div style={{minHeight:"100vh",background:C.page}}>
@@ -5834,14 +5847,28 @@ function AppsPage(){
       <div style={{background:"linear-gradient(135deg,#1e1b4b,#3730a3)",padding:"32px 20px 44px"}}>
         <div style={{maxWidth:1100,margin:"0 auto"}}>
           <h1 className="serif" style={{color:"#fff",fontSize:"clamp(22px,4vw,36px)",fontWeight:400,margin:"0 0 6px"}}>📱 Bulgaria App Directory</h1>
-          <p style={{color:"rgba(255,255,255,0.7)",fontSize:15,margin:"0 0 18px",fontWeight:300}}>50 essential apps for expat life in Bulgaria — transport, food, health, shopping and more</p>
+          <p style={{color:"rgba(255,255,255,0.7)",fontSize:15,margin:"0 0 18px",fontWeight:300}}>Essential apps for expat life — filter by your city and category</p>
           <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍  Search apps..." style={{width:"100%",maxWidth:400,border:"none",borderRadius:12,padding:"11px 16px",fontSize:14,outline:"none",background:"rgba(255,255,255,0.15)",color:"#fff",boxSizing:"border-box"}}/>
+        </div>
+      </div>
+
+      {/* City filter */}
+      <div style={{background:"#2d2a5e",borderBottom:"1px solid rgba(255,255,255,0.08)",padding:"10px 20px",overflowX:"auto"}}>
+        <div style={{maxWidth:1100,margin:"0 auto",display:"flex",gap:6,alignItems:"center"}}>
+          <span style={{color:"rgba(255,255,255,0.5)",fontSize:11,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.05em",flexShrink:0,marginRight:4}}>City</span>
+          {APP_CITIES.map(c=>(
+            <button key={c.id} onClick={()=>setCity(c.id)}
+              style={{padding:"6px 14px",borderRadius:20,border:`1.5px solid ${city===c.id?"#fcd34d":"rgba(255,255,255,0.15)"}`,background:city===c.id?"rgba(252,211,77,0.15)":"transparent",color:city===c.id?"#fcd34d":"rgba(255,255,255,0.65)",cursor:"pointer",fontSize:12,fontWeight:city===c.id?700:400,whiteSpace:"nowrap",flexShrink:0,display:"flex",alignItems:"center",gap:5}}>
+              {c.icon} {c.label}
+            </button>
+          ))}
         </div>
       </div>
 
       {/* Category filter */}
       <div style={{background:"#1e1b4b",borderBottom:"1px solid rgba(255,255,255,0.1)",padding:"10px 20px",overflowX:"auto"}}>
-        <div style={{maxWidth:1100,margin:"0 auto",display:"flex",gap:6}}>
+        <div style={{maxWidth:1100,margin:"0 auto",display:"flex",gap:6,alignItems:"center"}}>
+          <span style={{color:"rgba(255,255,255,0.5)",fontSize:11,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.05em",flexShrink:0,marginRight:4}}>Type</span>
           {BG_APP_CATS.map(c=>(
             <button key={c.id} onClick={()=>{setCat(c.id);setSearch("")}}
               style={{padding:"6px 14px",borderRadius:20,border:`1.5px solid ${cat===c.id?"#a5b4fc":"rgba(255,255,255,0.15)"}`,background:cat===c.id?"rgba(165,180,252,0.15)":"transparent",color:cat===c.id?"#a5b4fc":"rgba(255,255,255,0.65)",cursor:"pointer",fontSize:12,fontWeight:cat===c.id?700:400,whiteSpace:"nowrap",flexShrink:0,transition:"all 0.15s"}}>
@@ -5852,7 +5879,12 @@ function AppsPage(){
       </div>
 
       <div style={{maxWidth:1100,margin:"0 auto",padding:"24px 20px"}}>
-        <div style={{fontSize:13,color:C.muted,marginBottom:16}}>{filtered.length} apps{cat!=="all"?" in "+((catObj&&catObj.label)||""):" "}{search?" matching \""+search+"\"":""}</div>
+        <div style={{fontSize:13,color:C.muted,marginBottom:16}}>
+          {filtered.length} apps
+          {city!=="all"&&<span> available in <strong>{cityObj?.label}</strong></span>}
+          {cat!=="all"&&<span> · {catObj?.label}</span>}
+          {search&&<span> matching "{search}"</span>}
+        </div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:14}}>
           {filtered.map(app=>(
             <div key={app.id} style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:16,overflow:"hidden",boxShadow:"0 1px 6px rgba(0,0,0,0.05)",transition:"transform 0.2s,box-shadow 0.2s"}}
@@ -5869,6 +5901,7 @@ function AppsPage(){
                     {"★★★★★".slice(0,Math.round(app.rating)).split("").map((_,i)=><span key={i} style={{color:"#f59e0b",fontSize:11}}>★</span>)}
                     <span style={{fontSize:11,color:C.muted}}>{app.rating}</span>
                     {!app.free&&<span style={{fontSize:10,color:"#7c3aed",background:"#f3e8ff",padding:"1px 6px",borderRadius:6,fontWeight:600}}>Paid</span>}
+                    {!app.cities.includes("all")&&<span style={{fontSize:10,color:"#0891b2",background:"#ecfeff",padding:"1px 6px",borderRadius:6,fontWeight:600}}>{app.cities.map(c=>APP_CITIES.find(x=>x.id===c)?.label||c).join(", ")}</span>}
                   </div>
                 </div>
                 <div style={{display:"flex",gap:4}}>
@@ -5902,7 +5935,7 @@ function AppsPage(){
             </div>
           ))}
         </div>
-        {filtered.length===0&&<div style={{textAlign:"center",padding:"60px",color:C.muted}}><div style={{fontSize:32,marginBottom:8}}>📱</div><p>No apps found. Try a different search.</p></div>}
+        {filtered.length===0&&<div style={{textAlign:"center",padding:"60px",color:C.muted}}><div style={{fontSize:32,marginBottom:8}}>📱</div><p>No apps found for {cityObj?.label||"this city"}. Try "All Bulgaria" or a different category.</p></div>}
       </div>
     </div>
   )
