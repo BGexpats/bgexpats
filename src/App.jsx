@@ -1207,10 +1207,12 @@ function Nav({view,setView,lang,t,user,setUser,subscription,openCheckout=()=>{}}
             label={clean(t.nav?.explore)||"Explore"}
             active={["tools","map","apps","pricing","tracker"].includes(view)}
             items={[
+              {label:aiLabel[lang]||"AI",            view:"chat",      d:"M12 2l1.8 4.6L18 8l-4.2 1.9L12 15l-1.8-5.1L6 8l4.2-1.4z"},
               {label:clean(t.nav?.tools)||"Tools",   view:"tools",     d:"M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"},
               {label:clean(t.nav?.map)||"Map",       view:"map",       d:"M12 21s7-7.5 7-12a7 7 0 10-14 0c0 4.5 7 12 7 12z"},
               {label:clean(t.nav?.apps)||"Apps",     view:"apps",      d:"M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z"},
               {label:"Pricing",                      view:"pricing",   d:"M12 2l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.1 5.9 20.5l1.5-6.8-5.2-4.7 6.9-.7z"},
+              {label:clean(t.nav?.upgrade)||"Upgrade",view:"pricing",  d:"M13 2L4 14h6l-1 8 9-12h-6l1-8z"},
             ]}
           />
           {/* ── Community dropdown ─────────────────── */}
