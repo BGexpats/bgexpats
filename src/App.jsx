@@ -1242,7 +1242,7 @@ function Nav({view,setView,lang,t,user,setUser,subscription,openCheckout=()=>{}}
             {aiLabel[lang]||"AI"}
           </button>
           {user&&!subscription&&(
-            <button onClick={()=>openCheckout("basic")} style={{...navBtnStyle(false,true),padding:"7px 12px",fontSize:12}}>
+            <button onClick={()=>openCheckout("basic")} className="bg-nav-upgrade" style={{...navBtnStyle(false,true),padding:"7px 12px",fontSize:12}}>
               <NavIcon d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" d2="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>
               {clean(t.nav?.upgrade)||"Upgrade"}
             </button>
@@ -4790,7 +4790,8 @@ export default function App(){
           /* Article padding on mobile */
           .bg-article-wrap{padding:20px 14px 40px !important}
           /* Chat bubbles full width on mobile */
-          .bg-chat-bubble{max-width:95% !important}
+          .bg-chat-bubble{max-width:95% !important} /* Upgrade lives in the Explore menu on mobile to avoid banner overflow */
+          .bg-nav-upgrade{display:none !important}
         }
         @media(max-width:480px){
           .rg-pricing{grid-template-columns:1fr}
