@@ -1254,7 +1254,7 @@ function Nav({view,setView,lang,t,user,setUser,subscription,openCheckout=()=>{}}
             <svg width="20" height="20" viewBox="0 0 24 24"><path fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" d={mob?"M6 6l12 12M6 18L18 6":"M4 7h16M4 12h16M4 17h16"}/></svg>
           </button>
           {mob&&(
-            <div style={{position:"absolute",right:0,top:46,background:C.primary,border:`1px solid ${C.primaryDark}`,borderRadius:12,boxShadow:"0 8px 28px rgba(0,0,0,0.35)",minWidth:210,zIndex:9999,overflow:"hidden",padding:"4px 0"}}>
+            <div style={{position:"fixed",left:"50%",transform:"translateX(-50%)",top:58,background:C.primary,border:`1px solid ${C.primaryDark}`,borderRadius:12,boxShadow:"0 8px 28px rgba(0,0,0,0.35)",width:"calc(100vw - 24px)",maxWidth:340,zIndex:9999,overflow:"hidden",padding:"4px 0"}}>
               {[
                 {label:aiLabel[lang]||"AI",view:"chat"},
                 {label:clean(t.nav?.tools)||"Tools",view:"tools"},
