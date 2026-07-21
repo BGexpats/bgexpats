@@ -3046,6 +3046,14 @@ const TOOLS_LIST=[
 function ToolsPage({user,setView,trackEvent=()=>{},subscription}){
   const [active,setActive]=useState("cost")
   const [toolMenu,setToolMenu]=useState(false)
+  const toolMenuRef=useRef(null)
+  useEffect(()=>{
+    if(!toolMenu)return
+    const onDocClick=e=>{ if(toolMenuRef.current&&!toolMenuRef.current.contains(e.target))setToolMenu(false) }
+    document.addEventListener("mousedown",onDocClick)
+    document.addEventListener("touchstart",onDocClick)
+    return()=>{ document.removeEventListener("mousedown",onDocClick); document.removeEventListener("touchstart",onDocClick) }
+  },[toolMenu])
   const [isMobile,setIsMobile]=useState(typeof window!=="undefined"&&window.innerWidth<=768)
   useEffect(()=>{
     const onResize=()=>setIsMobile(window.innerWidth<=768)
@@ -3081,7 +3089,7 @@ function ToolsPage({user,setView,trackEvent=()=>{},subscription}){
         {isMobile ? (
           /* MOBILE: dropdown selector, then the tool at full screen width */
           <>
-            <div style={{background:`linear-gradient(135deg,${C.primaryLight},${C.surface})`,border:`1px solid ${C.primary}22`,borderRadius:16,padding:"14px 16px",marginBottom:14,boxShadow:"0 4px 16px rgba(30,94,63,0.10)"}}>
+            <div ref={toolMenuRef} style={{background:`linear-gradient(135deg,${C.primaryLight},${C.surface})`,border:`1px solid ${C.primary}22`,borderRadius:16,padding:"14px 16px",marginBottom:14,boxShadow:"0 4px 16px rgba(30,94,63,0.10)"}}>
               <label style={{display:"flex",alignItems:"center",gap:6,fontSize:11,fontWeight:700,color:C.primary,letterSpacing:"0.08em",marginBottom:9}}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={C.primary} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
                 CHOOSE A TOOL
