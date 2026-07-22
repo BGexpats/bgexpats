@@ -2288,7 +2288,7 @@ const NEIGHBOURHOODS=[
   {name:"Oborishte",city:"sofia",rent:850,safety:8,expat:8,transport:8,restaurants:8,desc:"Great balance of location and price. Very liveable."},
   {name:"Mladost 1",city:"sofia",rent:700,safety:8,expat:7,transport:8,restaurants:7,desc:"Modern, good metro link, popular with families."},
   {name:"Vitosha",city:"sofia",rent:750,safety:9,expat:6,transport:5,restaurants:6,desc:"At the foot of the mountain. Quiet, green, car needed."},
-  {name:"Studentski Grad",city:"sofia",rent:500,safety:6,expat:5,transport:8,restaurants:7,desc:"Student area, very affordable, young vibe.",city:"sofia"},
+  {name:"Studentski Grad",city:"sofia",rent:500,safety:6,expat:5,transport:8,restaurants:7,desc:"Student area, very affordable, young vibe."},
   // ── PLOVDIV ────────────────────────────────────────────────────
   {name:"Old Town (Stari Grad)",rent:550,safety:8,expat:9,transport:7,restaurants:10,desc:"UNESCO cobblestone streets, galleries, best cafes. Premium but unmatchable charm.",city:"plovdiv"},
   {name:"Kapana",rent:500,safety:8,expat:9,transport:8,restaurants:10,desc:"Creative arts district. Buzzing bars, galleries, independent shops. Very expat-friendly.",city:"plovdiv"},
@@ -3201,11 +3201,11 @@ const MAP_LOCATIONS = [
   {id:12,city:"sofia",cat:"work",icon:"💼",name:"Puzl CowOrKing",desc:"Central coworking space. Great expat community. Meeting rooms available.",addr:"33 William Gladstone St",phone:"+359 2 491 7400",english:true,lat:42.6978,lng:23.3204},
   {id:13,city:"sofia",cat:"work",icon:"💼",name:"Regus Sofia City",desc:"Professional offices and coworking. All-inclusive packages. Good for client meetings.",addr:"67 James Bourchier Blvd",phone:"+359 2 981 0000",english:true,lat:42.6844,lng:23.3165},
   // Sofia Neighborhoods
-  {id:14,city:"sofia",cat:"hood",icon:"🏠",name:"Lozenets",desc:"Most popular with expats. Quiet, leafy, great cafes. Rent: €800-1,400/month.",addr:"Lozenets, Sofia",english:true,lat:42.6838,lng:23.3245,city:"sofia"},
-  {id:15,city:"sofia",cat:"hood",icon:"🏠",name:"Iztok",desc:"Upscale residential. Embassy area. Large apartments. Very safe.",addr:"Iztok, Sofia",english:true,lat:42.6761,lng:23.3493,city:"sofia"},
-  {id:16,city:"sofia",cat:"hood",icon:"🏠",name:"Doctor's Garden",desc:"Most central and premium. Near the park. Best restaurants nearby.",addr:"Doctor's Garden, Sofia",english:true,lat:42.6920,lng:23.3280,city:"sofia"},
-  {id:17,city:"sofia",cat:"hood",icon:"🏠",name:"Oborishte",desc:"Great balance of location and price. Very liveable.",addr:"Oborishte, Sofia",english:true,lat:42.6967,lng:23.3348,city:"sofia"},
-  {id:18,city:"sofia",cat:"hood",icon:"🏠",name:"Mladost 1",desc:"Modern area. Great metro links. Popular with families. Rent from €700/month.",addr:"Mladost, Sofia",english:true,lat:42.6486,lng:23.3789,city:"sofia"},
+  {id:14,city:"sofia",cat:"hood",icon:"🏠",name:"Lozenets",desc:"Most popular with expats. Quiet, leafy, great cafes. Rent: €800-1,400/month.",addr:"Lozenets, Sofia",english:true,lat:42.6838,lng:23.3245},
+  {id:15,city:"sofia",cat:"hood",icon:"🏠",name:"Iztok",desc:"Upscale residential. Embassy area. Large apartments. Very safe.",addr:"Iztok, Sofia",english:true,lat:42.6761,lng:23.3493},
+  {id:16,city:"sofia",cat:"hood",icon:"🏠",name:"Doctor's Garden",desc:"Most central and premium. Near the park. Best restaurants nearby.",addr:"Doctor's Garden, Sofia",english:true,lat:42.6920,lng:23.3280},
+  {id:17,city:"sofia",cat:"hood",icon:"🏠",name:"Oborishte",desc:"Great balance of location and price. Very liveable.",addr:"Oborishte, Sofia",english:true,lat:42.6967,lng:23.3348},
+  {id:18,city:"sofia",cat:"hood",icon:"🏠",name:"Mladost 1",desc:"Modern area. Great metro links. Popular with families. Rent from €700/month.",addr:"Mladost, Sofia",english:true,lat:42.6486,lng:23.3789},
 
   // ── VARNA ──────────────────────────────────────────────────────
   {id:19,cat:"health",icon:"🏥",name:"St. Marina University Hospital",desc:"The main public hospital in Varna. Largest in Northeast Bulgaria. Emergency 24/7.",addr:"1 Hr. Smirnenski Blvd, Varna",phone:"+359 52 978 100",english:false,lat:43.2100,lng:27.9210,city:"varna"},
