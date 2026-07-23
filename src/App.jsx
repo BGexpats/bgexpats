@@ -11,6 +11,8 @@ import cosmosImg from "./assets/cosmos.png"
 import shtastlivecaImg from "./assets/shtastliveca.jpg"
 import magernitsaImg from "./assets/magernitsa.webp"
 import izbiteImg from "./assets/izbite.png"
+import nomadImg from "./assets/digital-nomad.jpg"
+import varnaHeroImg from "./assets/varna.jpg"
 import svetivlasImg from "./assets/sveti-vlas.jpg"
 import sozopolImg from "./assets/sozopol.jpg"
 import sunnyBeachImg from "./assets/sunny-beach.jpg"
@@ -995,6 +997,7 @@ No customs duty on EU-origin vehicles. Process:
     labels:{en:{label:"Business Setup",sub:"EOOD, freelance, company"},fr:{label:"Créer son entreprise",sub:"EOOD, freelance, société"},es:{label:"Montar un negocio",sub:"EOOD, autónomo, empresa"},de:{label:"Unternehmensgründung",sub:"EOOD, Freelance, Firma"},nl:{label:"Bedrijf Opzetten",sub:"EOOD, freelance, onderneming"},ru:{label:"Открытие бизнеса",sub:"Компании, налоги, фриланс"},uk:{label:"Відкриття бізнесу",sub:"Компанії, податки, фриланс"},tr:{label:"İş Kurma",sub:"Şirketler, vergiler, serbest çalışma"},bg:{label:"Бизнес регистрация",sub:"Компании, данъци, фрийланс"}},
     articles:[
       {titles:{en:"Digital nomads & self-employed in Bulgaria",fr:"Nomades numériques et indépendants en Bulgarie",es:"Nómadas digitales y autónomos en Bulgaria",de:"Digitale Nomaden und Selbstständige in Bulgarien",nl:"Digitale nomaden en zelfstandigen in Bulgarije"},
+       img:nomadImg,
        body:`Bulgaria is one of Europe's most attractive bases for remote workers: a 10% flat income tax, EU and Schengen membership, the euro since January 2026, and a cost of living well below Western Europe.\n\n## The digital nomad residence permit (new)\n\nBulgaria opened applications for a dedicated digital nomad residence permit on 20 December 2025. It allows remote workers to live here for up to 1 year, renewable for a second year.\n\n**Who qualifies (non-EU/EEA/Swiss citizens only) — one of three categories:**\n• Remote employees of a company registered outside the EU/EEA/Switzerland\n• Owners holding at least 25% of a foreign-registered company serving non-Bulgarian markets\n• Freelancers with at least 1 year serving foreign clients, with no Bulgarian clients\n\n**Income requirement:** roughly €31,000/year — calculated as 50× the Bulgarian minimum monthly wage. Bulgaria's threshold is among the lowest in the EU.\n\n**You will also need:** health insurance covering Bulgaria and the EU/Schengen area, proof of accommodation, and a clean criminal record. All foreign documents must be apostilled and translated into Bulgarian by a sworn translator.\n\n**The process:** two stages, roughly 3–4 months in total. First apply for a Type D long-stay visa at a Bulgarian embassy or consulate (fee around €100, processing 4–10 weeks). Then, once in Bulgaria, apply for the residence permit at the Migration Directorate — do this at least 14 days before your visa expires.\n\n**Important limits:** you may not work for Bulgarian employers or clients at all. The permit is capped at 2 years and does not lead to permanent residency. Family members can join through family reunification.\n\n---\n\n## Alternative: start a Bulgarian EOOD\n\nFor many people this remains the better long-term route, and it is open to EU citizens too.\n\n• Corporate tax 10%, dividends 5% — total effective tax around 14.5%, among the lowest in the EU\n• Registration takes 3–7 days, roughly €50–150 in state fees plus notary\n• You will need a local accountant (~€75–150/month) — essential and worth every euro\n• Unlike the nomad permit, an EOOD lets you serve Bulgarian clients and can lead to long-term residency\n\n---\n\n## Tax — the part people get wrong\n\nThe visa itself does not determine your tax position; the number of days you spend here does.\n\n• **More than 183 days in any 12-month period** → you become a Bulgarian tax resident, and Bulgaria taxes your worldwide income at the flat 10%\n• **183 days or fewer** → non-resident, taxed only on Bulgarian-source income, which generally excludes remote work for foreign clients\n\n💡 The Facebook groups "Sofia Digital Nomads" and "Expats in Sofia" are active and helpful for on-the-ground questions.\n\n⚠️ Rules and thresholds change — confirm current requirements with the Migration Directorate or a Bulgarian immigration lawyer before applying.`},
       {titles:{en:"Setting up an EOOD — your Bulgarian company",fr:"Créer une EOOD — votre société bulgare",es:"Crear una EOOD — su empresa búlgara",de:"Eine EOOD gründen — Ihre bulgarische Firma",nl:"Een EOOD oprichten — uw Bulgaars bedrijf"},
        body:`An EOOD is a single-person limited liability company — the most popular structure for expat entrepreneurs.\n\n**Why EOOD?**\n• 10% corporate tax\n• 5% dividend tax when you pay yourself\n• Total effective tax: ~14.5% (one of lowest in EU)\n• Full EU company — invoice anyone in the world\n• Foreigners can own 100%\n\n**Requirements:**\n• Minimum capital: €1 (literally two lev!)\n• Registered address in Bulgaria\n• You can be both owner and manager\n\n**How to register:**\n1. Choose a company name (check at brra.bg)\n2. Articles of association (notarized)\n3. Open company bank account, deposit capital\n4. Register with BRRA (Commercial Register)\n5. Register with NRA (Tax Authority)\n\n**Cost:** €102–500 in fees + €153–600 if using a lawyer.\n**Time:** 3–7 business days.\n\n**Monthly costs:** Accountant €75–150/month (essential). Health insurance ~€16/month.\n\n💡 Ask expat Facebook groups for accountant recommendations — a good one is worth everything.`},
@@ -1617,6 +1620,9 @@ function CategoryPage({catId,setView,lang,t,cache,setCache,user,reviews,setRevie
                 </button>
                 {isOpen&&(
                   <div style={{padding:"0 18px 18px",borderTop:`1px solid ${C.border}`,paddingTop:14}}>
+                    {art.img&&(
+                      <img src={art.img} alt={art.titles.en} style={{width:"100%",height:180,objectFit:"cover",borderRadius:10,marginBottom:14,display:"block"}}/>
+                    )}
                     {isLoading?(
                       <div style={{display:"flex",alignItems:"center",gap:8,color:C.muted,fontSize:13,padding:"20px 0"}}>
                         <span style={{animation:"spin 1s linear infinite",display:"inline-block"}}>⟳</span> {t.translating}
@@ -5954,7 +5960,7 @@ const TRAVEL_GUIDE = {
     hero: "https://images.unsplash.com/photo-1683653417751-ea68aa8bc289?w=1200&q=80",
     intro: "Bulgaria's Black Sea coast stretches from Romania to Turkey, with sandy beaches, lively resorts and ancient seaside towns. Pick a destination below.",
     cities: [
-      { id:"varna-city", name:"Varna Center", tagline:"Sea Garden, beach & city life", hero:"https://images.unsplash.com/photo-1683653417751-ea68aa8bc289?w=1200&q=80",
+      { id:"varna-city", name:"Varna Center", tagline:"Sea Garden, beach & city life", hero:varnaHeroImg,
         intro:"Varna's center runs from the Cathedral down to the famous Sea Garden and beach. The Briz and Chayka districts are popular with expats for their sea views.",
         places:[
           {name:"Mr. Baba",type:"restaurant",desc:"Seafood restaurant built inside a replica 16th-century galleon on the southern beach — a Varna landmark as much as a place to eat.",img:"",area:"Beach"},
@@ -6142,7 +6148,7 @@ const TRAVEL_GUIDE = {
     hero: "https://images.unsplash.com/photo-1683653417751-ea68aa8bc289?w=1200&q=80",
     intro: "Varna is Bulgaria's third city and Black Sea capital. Larger and more sophisticated than Sunny Beach — a proper city with beaches, the Sea Garden park, and a lively summer scene. Rents are seasonal.",
     cities: [
-      { id:"varna-center", name:"Varna Center", tagline:"Sea Garden, beach & city life", hero:"https://images.unsplash.com/photo-1683653417751-ea68aa8bc289?w=1200&q=80",
+      { id:"varna-center", name:"Varna Center", tagline:"Sea Garden, beach & city life", hero:varnaHeroImg,
         intro:"Varna's center runs from the Cathedral down to the famous Sea Garden and beach. The Briz and Chayka districts are popular with expats for their sea views.",
         places:[
           {name:"Mr. Baba",type:"restaurant",desc:"Seafood restaurant built inside a replica 16th-century galleon on the southern beach — a Varna landmark as much as a place to eat.",img:"",area:"Beach"},
